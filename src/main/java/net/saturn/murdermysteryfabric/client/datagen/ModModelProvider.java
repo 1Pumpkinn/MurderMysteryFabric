@@ -16,14 +16,12 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator generator) {
-        generator.registerSimpleCubeAll(ModBlocks.EVIDENCE_BOARD);
+
     }
 
     @Override
     public void generateItemModels(ItemModelGenerator generator) {
         generator.register(ModItems.KNIFE, Models.HANDHELD);
-        generator.register(ModItems.POISON, Models.GENERATED);
-        generator.register(ModItems.MAGNIFYING_GLASS, Models.GENERATED);
         generator.register(ModItems.EVIDENCE_FILE, Models.GENERATED);
     }
 }

@@ -7,6 +7,8 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.saturn.murdermysteryfabric.Murdermysteryfabric;
 
@@ -15,15 +17,17 @@ public class ModItems {
     // Murderer items
     public static final Item KNIFE = register("knife",
             new Item(new Item.Settings()
+                    .registryKey(key("knife"))
                     .attributeModifiers(createKnifeModifiers())));
-    public static final Item POISON = register("poison",
-            new Item(new Item.Settings().maxCount(16)));
 
-    // Detective items
-    public static final Item MAGNIFYING_GLASS = register("magnifying_glass",
-            new Item(new Item.Settings().maxCount(1)));
     public static final Item EVIDENCE_FILE = register("evidence_file",
-            new Item(new Item.Settings().maxCount(1)));
+            new Item(new Item.Settings()
+                    .registryKey(key("evidence_file"))
+                    .maxCount(1)));
+
+    private static RegistryKey<Item> key(String name) {
+        return RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Murdermysteryfabric.MODID, name));
+    }
 
     private static AttributeModifiersComponent createKnifeModifiers() {
         return AttributeModifiersComponent.builder()

@@ -19,7 +19,6 @@ public class ModLangProviderEN extends FabricLanguageProvider {
     public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
         // Murderer items
         translationBuilder.add(ModItems.KNIFE, "Knife");// Detective items
-        translationBuilder.add(ModItems.MAGNIFYING_GLASS, "Magnifying Glass");
         translationBuilder.add(ModItems.EVIDENCE_FILE, "Evidence File");
 
         // Item Groups

@@ -16,14 +16,11 @@ public class ModItemGroups {
             Registries.ITEM_GROUP,
             Identifier.of(Murdermysteryfabric.MODID, "murder_mystery"),
             FabricItemGroup.builder()
-                    .icon(() -> new ItemStack(ModItems.MAGNIFYING_GLASS))
                     .displayName(Text.translatable("itemGroup.murdermysteryfabric.murder_mystery"))
                     .entries((context, entries) -> {
                         // Murderer
                         entries.add(ModItems.KNIFE);
-                        entries.add(ModItems.POISON);
                         // Detective
-                        entries.add(ModItems.MAGNIFYING_GLASS);
                         entries.add(ModItems.EVIDENCE_FILE);
                         // Blocks
 
