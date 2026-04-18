@@ -16,9 +16,15 @@ public class ModItems {
 
     // Murderer items
     public static final Item KNIFE = register("knife",
-            new Item(new Item.Settings()
+            new KnifeItem(new Item.Settings()
                     .registryKey(key("knife"))
                     .attributeModifiers(createKnifeModifiers())));
+
+    // Detective items
+    public static final Item GUN = register("gun",
+            new GunItem(new Item.Settings()
+                    .registryKey(key("gun"))
+                    .maxCount(1)));
 
     public static final Item EVIDENCE_FILE = register("evidence_file",
             new Item(new Item.Settings()
