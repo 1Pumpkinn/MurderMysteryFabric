@@ -21,7 +21,10 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerator generator) {
-        generator.register(ModItems.KNIFE, Models.HANDHELD);
+        // KNIFE model is custom (manually created in resources) - skipped in datagen
+        // Custom models with elements and complex display transforms aren't supported by Fabric's datagen API
+        // The knife.json file is maintained manually in src/main/resources/assets/murdermysteryfabric/models/item/
+        
         generator.register(ModItems.EVIDENCE_FILE, Models.GENERATED);
     }
 }
