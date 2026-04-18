@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "murdermysteryfabric",
+  "version": "${version}",
+  "name": "MurderMysteryFabric",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/murdermysteryfabric/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": [
+      "net.saturn.murdermysteryfabric.client.MurdermysteryfabricDataGenerator"
+    ],
+    "client": [
+      "net.saturn.murdermysteryfabric.client.MurdermysteryfabricClient"
+    ],
+    "main": [
+      "net.saturn.murdermysteryfabric.Murdermysteryfabric"
+    ]
+  },
+  "mixins": [
+    "murdermysteryfabric.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

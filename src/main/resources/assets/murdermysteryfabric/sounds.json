@@ -1,0 +1,14 @@
+{
+  "clue_found": {
+    "subtitle": "murdermysteryfabric.sound.clue_found",
+    "sounds": ["murdermysteryfabric:clue_found"]
+  },
+  "knife_stab": {
+    "subtitle": "murdermysteryfabric.sound.knife_stab",
+    "sounds": ["murdermysteryfabric:knife_stab"]
+  },
+  "investigation_ambient": {
+    "subtitle": "murdermysteryfabric.sound.investigation_ambient",
+    "sounds": ["murdermysteryfabric:investigation_ambient"]
+  }
+}
