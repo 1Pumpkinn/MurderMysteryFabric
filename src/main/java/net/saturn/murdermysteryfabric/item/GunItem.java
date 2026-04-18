@@ -10,8 +10,8 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.saturn.murdermysteryfabric.entity.BulletEntity;
 
 public class GunItem extends Item {
 
@@ -21,20 +21,10 @@ public class GunItem extends Item {
 
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        ItemStack stack = user.getStackInHand(hand);
-        
         if (!world.isClient()) {
-            // Shoot a projectile (using arrow entity for simplicity)
-            Vec3d lookVec = user.getRotationVec(1.0F);
-            Vec3d startPos = user.getEyePos();
-            
-            // Create an arrow projectile
-            net.minecraft.entity.projectile.ArrowEntity arrow = new net.minecraft.entity.projectile.ArrowEntity(world, user, stack, null);
-            arrow.setPosition(startPos);
-            arrow.setVelocity(lookVec.x, lookVec.y, lookVec.z, 3.0F, 0.0F);
-            arrow.setDamage(20.0); // High damage to kill in one hit
-            
-            world.spawnEntity(arrow);
+            // Create and spawn custom bullet projectile
+            BulletEntity bullet = new BulletEntity(world, user);
+            world.spawnEntity(bullet);
             
             // Play gun sound
             world.playSound(null, user.getX(), user.getY(), user.getZ(), 

@@ -1,5 +1,6 @@
 package net.saturn.murdermysteryfabric.game;
 
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -18,6 +19,9 @@ public class GameManager {
     private boolean gameRunning = false;
     private boolean debugMode = false;
     private final Map<UUID, GameRole> playerRoles = new HashMap<>();
+    private GameTimer gameTimer;
+    private int tickCounter = 0;
+    private boolean tickListenerRegistered = false;
 
     private GameManager() {}
 
@@ -147,6 +151,16 @@ public class GameManager {
 
         gameRunning = true;
 
+        // Create and start the game timer (300 seconds = 5 minutes)
+        gameTimer = new GameTimer(server, 300);
+        tickCounter = 0;
+        
+        // Register server tick listener to update timer (only once)
+        if (!tickListenerRegistered) {
+            ServerTickEvents.END_SERVER_TICK.register(this::onServerTick);
+            tickListenerRegistered = true;
+        }
+
         // Broadcast start
         String debugTag = debugMode ? " [DEBUG MODE]" : "";
         server.getPlayerManager().broadcast(
@@ -156,11 +170,29 @@ public class GameManager {
     }
 
     public void endGame(MinecraftServer server, String reason) {
-        if (!gameRunning) return;
-        gameRunning = false;
+        // Synchronization to prevent race conditions in timer expiration
+        synchronized (this) {
+            if (!gameRunning) return;
+            
+            // Set gameRunning to false immediately to prevent re-entry
+            gameRunning = false;
+            
+            // Remove the game timer first (null-safe)
+            if (gameTimer != null) {
+                gameTimer.remove();
+                gameTimer = null;
+            }
+        }
         
-        // Clear all player inventories and roles
+        // Restore all players to survival mode and clear inventories
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+            try {
+                player.changeGameMode(net.minecraft.world.GameMode.SURVIVAL);
+            } catch (Exception e) {
+                // Log error for specific player, continue with others
+                System.err.println("Failed to restore game mode for " + player.getName().getString() + ": " + e.getMessage());
+            }
+            
             if (playerRoles.containsKey(player.getUuid())) {
                 player.getInventory().clear();
             }
@@ -195,6 +227,30 @@ public class GameManager {
 
         if (aliveNonMurderers == 0) {
             endGame(server, "The Murderer has eliminated everyone! Murderer wins!");
+        }
+    }
+
+    /**
+     * Called every server tick to update the game timer.
+     * Ticks the timer every 20 ticks (once per second).
+     */
+    private void onServerTick(MinecraftServer server) {
+        // State checks to prevent race conditions
+        if (!gameRunning || gameTimer == null) {
+            return;
+        }
+        
+        tickCounter++;
+        
+        // Tick the timer every 20 ticks (once per second)
+        if (tickCounter >= 20) {
+            tickCounter = 0;
+            
+            // Check if timer has expired
+            // Double-check gameRunning to prevent race condition where endGame was already called
+            if (gameRunning && gameTimer != null && gameTimer.tick()) {
+                endGame(server, "Time's up! The Murderer wins!");
+            }
         }
     }
 
