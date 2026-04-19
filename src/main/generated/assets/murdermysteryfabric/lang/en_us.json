@@ -1,0 +1,15 @@
+{
+  "block.murdermysteryfabric.redwood_leaves": "Redwood Leaves",
+  "block.murdermysteryfabric.redwood_log": "Redwood Log",
+  "block.murdermysteryfabric.redwood_planks": "Redwood Planks",
+  "block.murdermysteryfabric.redwood_sapling": "Redwood Sapling",
+  "block.murdermysteryfabric.redwood_wood": "Redwood Wood",
+  "block.murdermysteryfabric.stripped_redwood_log": "Stripped Redwood Wood",
+  "block.murdermysteryfabric.stripped_redwood_wood": "Stripped Redwood Wood",
+  "item.murdermysteryfabric.evidence_file": "Evidence File",
+  "item.murdermysteryfabric.knife": "Knife",
+  "itemGroup.murdermysteryfabric.murder_mystery": "Murder Mystery",
+  "murdermysteryfabric.sound.clue_found": "Clue Found",
+  "murdermysteryfabric.sound.investigation_ambient": "Investigation Ambient",
+  "murdermysteryfabric.sound.knife_stab": "Knife Stab"
+}
