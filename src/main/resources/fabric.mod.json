@@ -16,6 +16,9 @@
     "client": [
       "net.saturn.murdermysteryfabric.MurdermysteryfabricClient"
     ],
+    "terrablender": [
+      "net.saturn.murdermysteryfabric.Murdermysteryfabric"
+    ],
     "main": [
       "net.saturn.murdermysteryfabric.Murdermysteryfabric"
     ]

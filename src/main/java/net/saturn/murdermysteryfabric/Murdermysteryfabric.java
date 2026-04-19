@@ -8,9 +8,13 @@ import net.saturn.murdermysteryfabric.event.ModEvents;
 import net.saturn.murdermysteryfabric.item.ModItemGroups;
 import net.saturn.murdermysteryfabric.item.ModItems;
 import net.saturn.murdermysteryfabric.sound.ModSounds;
+import net.saturn.murdermysteryfabric.world.biome.ModBiomes;
+import net.saturn.murdermysteryfabric.world.biome.ModMaterialRules;
 import net.saturn.murdermysteryfabric.world.gen.ModWorldGeneration;
+import terrablender.api.SurfaceRuleManager;
+import terrablender.api.TerraBlenderApi;
 
-public class Murdermysteryfabric implements ModInitializer {
+public class Murdermysteryfabric implements ModInitializer, TerraBlenderApi {
 
     public static final String MODID = "murdermysteryfabric";
 
@@ -24,5 +28,13 @@ public class Murdermysteryfabric implements ModInitializer {
         ModCommands.register();
         ModEvents.register();
         ModWorldGeneration.generateModWorldGeneration();
+    }
+
+    @Override
+    public void onTerraBlenderInitialized() {
+        ModBiomes.registerBiomes();
+
+        // Register our surface rules
+        SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MODID, ModMaterialRules.makeKaupenValleyRules());
     }
 }
