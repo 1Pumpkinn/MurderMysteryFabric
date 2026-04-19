@@ -1,11 +1,9 @@
-package net.saturn.murdermysteryfabric.client.datagen;
+package net.saturn.murdermysteryfabric.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.registry.RegistryWrapper;
-import net.saturn.murdermysteryfabric.block.ModBlocks;
 import net.saturn.murdermysteryfabric.item.ModItems;
-import net.saturn.murdermysteryfabric.sound.ModSounds;
 
 import java.util.concurrent.CompletableFuture;
 

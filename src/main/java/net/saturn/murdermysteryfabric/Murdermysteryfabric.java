@@ -8,6 +8,7 @@ import net.saturn.murdermysteryfabric.event.ModEvents;
 import net.saturn.murdermysteryfabric.item.ModItemGroups;
 import net.saturn.murdermysteryfabric.item.ModItems;
 import net.saturn.murdermysteryfabric.sound.ModSounds;
+import net.saturn.murdermysteryfabric.world.gen.ModWorldGeneration;
 
 public class Murdermysteryfabric implements ModInitializer {
 
@@ -22,5 +23,6 @@ public class Murdermysteryfabric implements ModInitializer {
         ModSounds.initialize();
         ModCommands.register();
         ModEvents.register();
+        ModWorldGeneration.generateModWorldGeneration();
     }
 }

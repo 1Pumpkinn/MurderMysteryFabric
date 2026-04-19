@@ -1,4 +1,4 @@
-package net.saturn.murdermysteryfabric.client;
+package net.saturn.murdermysteryfabric;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;

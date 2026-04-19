@@ -11,10 +11,10 @@
   "environment": "*",
   "entrypoints": {
     "fabric-datagen": [
-      "net.saturn.murdermysteryfabric.client.MurdermysteryfabricDataGenerator"
+      "net.saturn.murdermysteryfabric.MurdermysteryfabricDataGenerator"
     ],
     "client": [
-      "net.saturn.murdermysteryfabric.client.MurdermysteryfabricClient"
+      "net.saturn.murdermysteryfabric.MurdermysteryfabricClient"
     ],
     "main": [
       "net.saturn.murdermysteryfabric.Murdermysteryfabric"
