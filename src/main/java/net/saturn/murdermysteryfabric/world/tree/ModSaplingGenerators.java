@@ -6,11 +6,7 @@ import net.saturn.murdermysteryfabric.world.ModConfiguredFeatures;
 
 import java.util.Optional;
 
-
 public class ModSaplingGenerators {
-    public static final SaplingGenerator REDWOOD = new SaplingGenerator(Murdermysteryfabric.MODID + ": redwood",
+    public static final SaplingGenerator REDWOOD = new SaplingGenerator(Murdermysteryfabric.MODID + ":blackwood",
             Optional.empty(), Optional.of(ModConfiguredFeatures.REDWOOD_KEY), Optional.empty());
-
-
-
 }
