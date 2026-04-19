@@ -15,6 +15,7 @@ public class MurdermysteryfabricClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.BULLET, EmptyEntityRenderer::new);
 
         BlockRenderLayerMap.putBlock(ModBlocks.REDWOOD_SAPLING, BlockRenderLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(ModBlocks.REDWOOD_LEAVES, BlockRenderLayer.CUTOUT);
 
     }
 }
