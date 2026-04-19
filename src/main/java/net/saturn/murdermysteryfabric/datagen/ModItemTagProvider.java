@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
+import net.saturn.murdermysteryfabric.block.ModBlocks;
 import net.saturn.murdermysteryfabric.item.ModItems;
 
 import java.util.concurrent.CompletableFuture;
@@ -20,5 +21,15 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.KNIFE);
         valueLookupBuilder(ItemTags.MELEE_WEAPON_ENCHANTABLE)
                 .add(ModItems.KNIFE);
+
+        valueLookupBuilder(ItemTags.LOGS_THAT_BURN)
+                .add(ModBlocks.REDWOOD_LOG.asItem(),
+                        ModBlocks.REDWOOD_WOOD.asItem(),
+                        ModBlocks.STRIPPED_REDWOOD_LOG.asItem(),
+                        ModBlocks.STRIPPED_REDWOOD_WOOD.asItem());
+
+        valueLookupBuilder(ItemTags.PLANKS)
+                .add(ModBlocks.REDWOOD_PLANKS.asItem());
+
     }
 }

@@ -15,14 +15,25 @@ public class ModItemGroups {
     public static final ItemGroup MURDER_MYSTERY = Registry.register(
             Registries.ITEM_GROUP,
             Identifier.of(Murdermysteryfabric.MODID, "murder_mystery"),
-            FabricItemGroup.builder()
-                    .displayName(Text.translatable("itemGroup.murdermysteryfabric.murder_mystery"))
+            FabricItemGroup.
+                    builder().displayName(Text.translatable("itemGroup.murdermysteryfabric.murder_mystery"))
+                    .icon(() -> new ItemStack(ModItems.KNIFE))
                     .entries((context, entries) -> {
-                        // Murderer
+                        // Items
                         entries.add(ModItems.KNIFE);
-                        // Detective
                         entries.add(ModItems.EVIDENCE_FILE);
-                        // Blocks
+
+
+                       // Blocks
+                        entries.add(ModBlocks.REDWOOD_LOG);
+                        entries.add(ModBlocks.REDWOOD_WOOD);
+                        entries.add(ModBlocks.STRIPPED_REDWOOD_LOG);
+                        entries.add(ModBlocks.STRIPPED_REDWOOD_WOOD);
+                        entries.add(ModBlocks.REDWOOD_PLANKS);
+                        entries.add(ModBlocks.REDWOOD_LEAVES);
+                        entries.add(ModBlocks.REDWOOD_SAPLING);
+
+
 
                     })
                     .build());

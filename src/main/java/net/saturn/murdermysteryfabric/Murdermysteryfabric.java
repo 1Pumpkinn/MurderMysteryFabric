@@ -18,7 +18,7 @@ public class Murdermysteryfabric implements ModInitializer {
     public void onInitialize() {
         ModEntities.initialize();
         ModItems.initialize();
-        ModBlocks.initialize();
+        ModBlocks.registerModBlocks();
         ModItemGroups.initialize();
         ModSounds.initialize();
         ModCommands.register();

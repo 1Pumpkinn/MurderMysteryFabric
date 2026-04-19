@@ -5,21 +5,24 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.FeatureConfig;
-import net.minecraft.world.gen.feature.PlacedFeature;
+import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.placementmodifier.PlacementModifier;
 import net.saturn.murdermysteryfabric.Murdermysteryfabric;
+import net.saturn.murdermysteryfabric.block.ModBlocks;
 
 import java.util.List;
 
 public class ModPlacedFeatures {
 
-
+    public static final RegistryKey<PlacedFeature> REDWOOD_PLACED_KEY = registryKey("redwood_placed");
 
     public static void bootstrap(Registerable<PlacedFeature> context) {
         var configuredFeatureRegistryEntryLookup = context.getRegistryLookup(RegistryKeys.CONFIGURED_FEATURE);
+
+        register(context, REDWOOD_PLACED_KEY, configuredFeatureRegistryEntryLookup.getOrThrow(ModConfiguredFeatures.REDWOOD_KEY),
+                VegetationPlacedFeatures.treeModifiersWithWouldSurvive(
+                        PlacedFeatures.createCountExtraModifier(1, 0.1f, 2),
+                        ModBlocks.REDWOOD_SAPLING));
     }
 
     public static RegistryKey<PlacedFeature> registryKey(String name) {

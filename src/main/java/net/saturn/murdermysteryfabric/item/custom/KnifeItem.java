@@ -1,4 +1,4 @@
-package net.saturn.murdermysteryfabric.item;
+package net.saturn.murdermysteryfabric.item.custom;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;

@@ -11,6 +11,8 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.saturn.murdermysteryfabric.Murdermysteryfabric;
+import net.saturn.murdermysteryfabric.item.custom.GunItem;
+import net.saturn.murdermysteryfabric.item.custom.KnifeItem;
 
 public class ModItems {
 
