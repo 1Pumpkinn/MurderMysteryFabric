@@ -18,6 +18,7 @@ import java.util.List;
 
 public class ModPlacedFeatures {
 
+    // ── Tree placed feature keys ─────────────────────────────────────────────
     public static final RegistryKey<PlacedFeature> SMALL_REDWOOD_PLACED_KEY =
             registerKey("small_redwood_placed");
     public static final RegistryKey<PlacedFeature> MEDIUM_REDWOOD_PLACED_KEY =
@@ -25,58 +26,131 @@ public class ModPlacedFeatures {
     public static final RegistryKey<PlacedFeature> GIANT_SEQUOIA_PLACED_KEY =
             registerKey("giant_sequoia_placed");
 
+    // ── Forest floor detail keys ─────────────────────────────────────────────
+    public static final RegistryKey<PlacedFeature> FOREST_FLOOR_VEGETATION_PLACED_KEY =
+            registerKey("forest_floor_vegetation_placed");
+    public static final RegistryKey<PlacedFeature> FALLEN_LOG_PLACED_KEY =
+            registerKey("fallen_log_placed");
+    public static final RegistryKey<PlacedFeature> FOREST_ROCKS_PLACED_KEY =
+            registerKey("forest_rocks_placed");
+
     public static void bootstrap(Registerable<PlacedFeature> context) {
         var configured = context.getRegistryLookup(RegistryKeys.CONFIGURED_FEATURE);
 
-        // Small redwoods – common
+        // ── Small Redwood ────────────────────────────────────────────────────
+        // Common — appears throughout the forest. Rarity 1 = attempt every chunk.
+        // CountPlacementModifier(6) = up to 6 attempts per chunk section.
         register(
                 context,
                 SMALL_REDWOOD_PLACED_KEY,
                 configured.getOrThrow(ModConfiguredFeatures.SMALL_REDWOOD_KEY),
-                baseTreeModifiers(1) // very common
+                treeModifiers(6)
         );
 
-        // Medium redwoods – less common
+        // ── Medium Redwood ───────────────────────────────────────────────────
+        // Moderate — roughly 1–2 per chunk.
         register(
                 context,
                 MEDIUM_REDWOOD_PLACED_KEY,
                 configured.getOrThrow(ModConfiguredFeatures.MEDIUM_REDWOOD_KEY),
-                baseTreeModifiers(3) // moderate
+                treeModifiers(2)
         );
 
-        // Giant sequoias – very rare and spaced far apart to avoid overlap
+        // ── Giant Sequoia ────────────────────────────────────────────────────
+        // Rare — roughly 1 per 8 chunks to prevent overlap.
         register(
                 context,
                 GIANT_SEQUOIA_PLACED_KEY,
                 configured.getOrThrow(ModConfiguredFeatures.GIANT_SEQUOIA_KEY),
-                baseTreeModifiers(50) // rare: ~1 per 50 chunks
+                List.of(
+                        // Rare: only ~1 in 8 chunks gets an attempt
+                        RarityFilterPlacementModifier.of(8),
+                        SquarePlacementModifier.of(),
+                        // Use WORLD_SURFACE heightmap — ensures the trunk starts on actual ground
+                        HeightmapPlacementModifier.of(Heightmap.Type.WORLD_SURFACE_WG),
+                        // Never place in or next to water
+                        SurfaceWaterDepthFilterPlacementModifier.of(0),
+                        // Sapling must be able to survive at position (solid ground, no water)
+                        BlockFilterPlacementModifier.of(
+                                BlockPredicate.wouldSurvive(
+                                        ModBlocks.REDWOOD_SAPLING.getDefaultState(),
+                                        BlockPos.ORIGIN
+                                )
+                        ),
+                        BiomePlacementModifier.of()
+                )
+        );
+
+        // ── Forest Floor Vegetation ──────────────────────────────────────────
+        // Lots of ferns on the forest floor — dense and atmospheric.
+        register(
+                context,
+                FOREST_FLOOR_VEGETATION_PLACED_KEY,
+                configured.getOrThrow(ModConfiguredFeatures.FOREST_FLOOR_VEGETATION_KEY),
+                List.of(
+                        CountPlacementModifier.of(8),       // 8 patches per chunk
+                        SquarePlacementModifier.of(),
+                        HeightmapPlacementModifier.of(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES),
+                        BiomePlacementModifier.of()
+                )
+        );
+
+        // ── Fallen Logs ──────────────────────────────────────────────────────
+        // Occasional fallen log on the ground — adds to the forest atmosphere.
+        register(
+                context,
+                FALLEN_LOG_PLACED_KEY,
+                configured.getOrThrow(ModConfiguredFeatures.FALLEN_LOG_KEY),
+                List.of(
+                        RarityFilterPlacementModifier.of(4),  // ~1 per 4 chunks
+                        SquarePlacementModifier.of(),
+                        HeightmapPlacementModifier.of(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES),
+                        SurfaceWaterDepthFilterPlacementModifier.of(0),
+                        BiomePlacementModifier.of()
+                )
+        );
+
+        // ── Forest Rocks ─────────────────────────────────────────────────────
+        // Mossy cobblestone boulders scattered around — rare, atmospheric.
+        register(
+                context,
+                FOREST_ROCKS_PLACED_KEY,
+                configured.getOrThrow(ModConfiguredFeatures.FOREST_ROCKS_KEY),
+                List.of(
+                        RarityFilterPlacementModifier.of(6),  // ~1 per 6 chunks
+                        SquarePlacementModifier.of(),
+                        HeightmapPlacementModifier.of(Heightmap.Type.MOTION_BLOCKING),
+                        SurfaceWaterDepthFilterPlacementModifier.of(0),
+                        BiomePlacementModifier.of()
+                )
         );
     }
 
-    private static List<PlacementModifier> baseTreeModifiers(int rarity) {
+    // ── Shared tree placement modifiers ──────────────────────────────────────
+    // count  = how many placement attempts per chunk
+    // Uses WORLD_SURFACE_WG heightmap (more accurate than MOTION_BLOCKING for
+    // tree generation — avoids trees spawning on top of tall grass or snow layers)
+    private static List<PlacementModifier> treeModifiers(int count) {
         return List.of(
-                // Rarity controls how often attempts are made across chunks
-                RarityFilterPlacementModifier.of(rarity),
-
-                // Spread attempts inside the chunk
+                CountPlacementModifier.of(count),
                 SquarePlacementModifier.of(),
-
-                // Place on surface
-                HeightmapPlacementModifier.of(Heightmap.Type.MOTION_BLOCKING),
-
-                // Prevent water placement
+                // WORLD_SURFACE_WG = solid ground surface ignoring non-solid blocks
+                HeightmapPlacementModifier.of(Heightmap.Type.WORLD_SURFACE_WG),
+                // Block any placement where water is at or near the surface
                 SurfaceWaterDepthFilterPlacementModifier.of(0),
-
-                // Ensure sapling would survive at the placement position
-                BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(
-                        ModBlocks.REDWOOD_SAPLING.getDefaultState(),
-                        BlockPos.ORIGIN
-                )),
-
-                // Biome restriction
+                // Sapling survival check: ensures the ground block below is valid
+                // (not air, not water, not floating) — this is the key anti-float guard
+                BlockFilterPlacementModifier.of(
+                        BlockPredicate.wouldSurvive(
+                                ModBlocks.REDWOOD_SAPLING.getDefaultState(),
+                                BlockPos.ORIGIN
+                        )
+                ),
                 BiomePlacementModifier.of()
         );
     }
+
+    // ── Helpers ──────────────────────────────────────────────────────────────
 
     private static RegistryKey<PlacedFeature> registerKey(String name) {
         return RegistryKey.of(

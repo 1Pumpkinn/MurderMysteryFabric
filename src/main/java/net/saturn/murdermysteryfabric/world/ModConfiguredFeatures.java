@@ -6,17 +6,19 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
-import net.minecraft.world.gen.foliage.CherryFoliagePlacer;
+import net.minecraft.world.gen.foliage.MegaPineFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
-import net.minecraft.world.gen.trunk.DarkOakTrunkPlacer;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
+import net.minecraft.world.gen.trunk.MegaJungleTrunkPlacer;
 import net.saturn.murdermysteryfabric.Murdermysteryfabric;
 import net.saturn.murdermysteryfabric.block.ModBlocks;
 
 public class ModConfiguredFeatures {
 
+    // ── Tree keys ────────────────────────────────────────────────────────────
     public static final RegistryKey<ConfiguredFeature<?, ?>> SMALL_REDWOOD_KEY =
             registerKey("small_redwood");
     public static final RegistryKey<ConfiguredFeature<?, ?>> MEDIUM_REDWOOD_KEY =
@@ -24,76 +26,114 @@ public class ModConfiguredFeatures {
     public static final RegistryKey<ConfiguredFeature<?, ?>> GIANT_SEQUOIA_KEY =
             registerKey("giant_sequoia");
 
+    // ── Forest floor detail keys ─────────────────────────────────────────────
+    public static final RegistryKey<ConfiguredFeature<?, ?>> FOREST_FLOOR_VEGETATION_KEY =
+            registerKey("forest_floor_vegetation");
+    public static final RegistryKey<ConfiguredFeature<?, ?>> FALLEN_LOG_KEY =
+            registerKey("fallen_log");
+    public static final RegistryKey<ConfiguredFeature<?, ?>> FOREST_ROCKS_KEY =
+            registerKey("forest_rocks");
+
     public static void bootstrap(Registerable<ConfiguredFeature<?, ?>> context) {
 
-        // Small redwood – common, narrow crown using CherryFoliagePlacer
+        // ── Small Redwood ────────────────────────────────────────────────────
+        // 10-14 blocks tall, narrow conical pine crown.
+        // PineFoliagePlacer gives the classic tapered cone look.
         register(context, SMALL_REDWOOD_KEY, Feature.TREE,
                 new TreeFeatureConfig.Builder(
                         BlockStateProvider.of(ModBlocks.REDWOOD_LOG),
-                        new StraightTrunkPlacer(10, 4, 2),
+                        new StraightTrunkPlacer(8, 2, 1),
                         BlockStateProvider.of(ModBlocks.REDWOOD_LEAVES),
-                        new CherryFoliagePlacer(
-                                ConstantIntProvider.create(2), // radius
-                                ConstantIntProvider.create(0), // offset
-                                ConstantIntProvider.create(3), // height
-                                0.12f, // wide bottom layer hole chance
-                                0.18f, // corner hole chance
-                                0.06f, // hanging leaves chance
-                                0.03f  // hanging leaves extension chance
+                        new MegaPineFoliagePlacer(
+                                ConstantIntProvider.create(0),
+                                ConstantIntProvider.create(0),
+                                UniformIntProvider.create(10, 13)  // minimum 10 layers always covers the tip
                         ),
                         new TwoLayersFeatureSize(1, 0, 1)
                 )
                         .dirtProvider(BlockStateProvider.of(Blocks.PODZOL))
                         .forceDirt()
+                        .ignoreVines()
                         .build()
         );
 
-        // Medium redwood – taller, fuller crown but still conical
+        // ── Medium Redwood ───────────────────────────────────────────────────
+        // 18-22 blocks tall, wider pine crown.
         register(context, MEDIUM_REDWOOD_KEY, Feature.TREE,
                 new TreeFeatureConfig.Builder(
                         BlockStateProvider.of(ModBlocks.REDWOOD_LOG),
-                        new StraightTrunkPlacer(16, 5, 3),
+                        new StraightTrunkPlacer(14, 2, 1),
                         BlockStateProvider.of(ModBlocks.REDWOOD_LEAVES),
-                        new CherryFoliagePlacer(
-                                ConstantIntProvider.create(3), // radius
-                                ConstantIntProvider.create(0), // offset
-                                ConstantIntProvider.create(5), // height
-                                0.10f,
-                                0.15f,
-                                0.08f,
-                                0.04f
+                        new MegaPineFoliagePlacer(
+                                ConstantIntProvider.create(0),
+                                ConstantIntProvider.create(0),
+                                UniformIntProvider.create(13, 17)
                         ),
                         new TwoLayersFeatureSize(1, 0, 2)
                 )
                         .dirtProvider(BlockStateProvider.of(Blocks.PODZOL))
                         .forceDirt()
+                        .ignoreVines()
                         .build()
         );
 
-        // Giant sequoia – massive trunk using DarkOakTrunkPlacer (2x2 trunk) and large Cherry foliage
+        // ── Giant Sequoia ────────────────────────────────────────────────────
+        // 30-42 blocks tall, massive 2x2 trunk, dense mega-pine crown.
+        // MegaJungleTrunkPlacer produces the thick 2x2 trunk used by jungle trees.
+        // MegaPineFoliagePlacer gives the layered, dense canopy.
         register(context, GIANT_SEQUOIA_KEY, Feature.TREE,
                 new TreeFeatureConfig.Builder(
                         BlockStateProvider.of(ModBlocks.REDWOOD_LOG),
-                        // DarkOakTrunkPlacer produces a 2x2 trunk; parameters tuned for very tall trunk
-                        new DarkOakTrunkPlacer(24, 10, 6),
+                        new MegaJungleTrunkPlacer(30, 6, 6),
                         BlockStateProvider.of(ModBlocks.REDWOOD_LEAVES),
-                        new CherryFoliagePlacer(
-                                ConstantIntProvider.create(5), // radius
-                                ConstantIntProvider.create(1), // offset
-                                ConstantIntProvider.create(8), // height
-                                0.08f,
-                                0.12f,
-                                0.10f,
-                                0.06f
+                        new MegaPineFoliagePlacer(
+                                ConstantIntProvider.create(0),    // radius (mega placers spread automatically)
+                                ConstantIntProvider.create(0),    // offset
+                                UniformIntProvider.create(10, 16) // crown height
                         ),
-                        // larger size to allow a big crown
-                        new TwoLayersFeatureSize(2, 1, 3)
+                        new TwoLayersFeatureSize(1, 1, 2)
                 )
                         .dirtProvider(BlockStateProvider.of(Blocks.PODZOL))
                         .forceDirt()
+                        .ignoreVines()
                         .build()
         );
+
+        // ── Forest Floor Vegetation ──────────────────────────────────────────
+        // Dense ferns, grass, and dead bushes scattered across the forest floor.
+        register(context, FOREST_FLOOR_VEGETATION_KEY, Feature.RANDOM_PATCH,
+                new RandomPatchFeatureConfig(
+                        64, // tries
+                        7,  // xz spread
+                        3,  // y spread
+                        PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK,
+                                new SimpleBlockFeatureConfig(
+                                        BlockStateProvider.of(Blocks.FERN)
+                                ))
+                )
+        );
+
+        // ── Fallen Log ───────────────────────────────────────────────────────
+        // A single horizontal redwood log sitting on the ground.
+        // We use FOREST_ROCK as a structural analogue — it places a single block.
+        // For a "fallen log" we place a horizontal log via simple block feature.
+        register(context, FALLEN_LOG_KEY, Feature.SIMPLE_BLOCK,
+                new SimpleBlockFeatureConfig(
+                        BlockStateProvider.of(
+                                ModBlocks.REDWOOD_LOG.getDefaultState()
+                                        .with(net.minecraft.state.property.Properties.AXIS,
+                                                net.minecraft.util.math.Direction.Axis.X)
+                        )
+                )
+        );
+
+        // ── Forest Rocks (mossy cobblestone boulders) ────────────────────────
+        register(context, FOREST_ROCKS_KEY, Feature.FOREST_ROCK,
+                new SingleStateFeatureConfig(Blocks.MOSSY_COBBLESTONE.getDefaultState())
+        );
     }
+
+    // ── Helpers ──────────────────────────────────────────────────────────────
 
     private static RegistryKey<ConfiguredFeature<?, ?>> registerKey(String name) {
         return RegistryKey.of(
@@ -106,8 +146,8 @@ public class ModConfiguredFeatures {
             Registerable<ConfiguredFeature<?, ?>> context,
             RegistryKey<ConfiguredFeature<?, ?>> key,
             F feature,
-            FC configuration
+            FC config
     ) {
-        context.register(key, new ConfiguredFeature<>(feature, configuration));
+        context.register(key, new ConfiguredFeature<>(feature, config));
     }
 }
