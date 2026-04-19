@@ -37,8 +37,8 @@ public class ModLangProviderEN extends FabricLanguageProvider {
         translationBuilder.add("itemGroup.murdermysteryfabric.murder_mystery", "Murder Mystery");
 
         // Sounds
-        translationBuilder.add("murdermysteryfabric.sound.clue_found", "Clue Found");
-        translationBuilder.add("murdermysteryfabric.sound.knife_stab", "Knife Stab");
-        translationBuilder.add("murdermysteryfabric.sound.investigation_ambient", "Investigation Ambient");
+
+
+
     }
 }
