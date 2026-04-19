@@ -16,7 +16,6 @@ public class MurdermysteryfabricDataGenerator implements DataGeneratorEntrypoint
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
 
         pack.addProvider(ModModelProvider::new);
-        pack.addProvider(ModLangProviderEN::new);
         pack.addProvider(ModBlockTagProvider::new);
         pack.addProvider(ModItemTagProvider::new);
         pack.addProvider(ModLootTableProvider::new);

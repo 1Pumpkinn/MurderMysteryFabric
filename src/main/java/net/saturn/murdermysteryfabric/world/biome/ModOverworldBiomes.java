@@ -14,14 +14,15 @@ public class ModOverworldBiomes {
             RegistryEntryLookup<PlacedFeature> placedFeatureGetter,
             RegistryEntryLookup<ConfiguredCarver<?>> carverGetter) {
 
+        // Spawn settings
         SpawnSettings.Builder spawnBuilder = new SpawnSettings.Builder();
         DefaultBiomeFeatures.addFarmAnimals(spawnBuilder);
-        // Add wolves — fitting for a deep forest
 
+        // Generation settings
         GenerationSettings.LookupBackedBuilder gen =
                 new GenerationSettings.LookupBackedBuilder(placedFeatureGetter, carverGetter);
 
-        // Standard underground features
+        // Underground features
         DefaultBiomeFeatures.addLandCarvers(gen);
         DefaultBiomeFeatures.addAmethystGeodes(gen);
         DefaultBiomeFeatures.addDungeons(gen);
@@ -29,7 +30,7 @@ public class ModOverworldBiomes {
         DefaultBiomeFeatures.addDefaultOres(gen);
         DefaultBiomeFeatures.addDefaultDisks(gen);
 
-        // Forest floor detail — added before trees so they sit underneath
+        // Forest floor details
         gen.feature(GenerationStep.Feature.VEGETAL_DECORATION,
                 ModPlacedFeatures.FOREST_FLOOR_VEGETATION_PLACED_KEY);
         gen.feature(GenerationStep.Feature.VEGETAL_DECORATION,
@@ -37,14 +38,14 @@ public class ModOverworldBiomes {
         gen.feature(GenerationStep.Feature.VEGETAL_DECORATION,
                 ModPlacedFeatures.FOREST_ROCKS_PLACED_KEY);
 
-        // Mushrooms — fits a damp forest
+        // Vegetation
         DefaultBiomeFeatures.addDefaultMushrooms(gen);
         DefaultBiomeFeatures.addDefaultVegetation(gen, false);
 
         // Springs
         DefaultBiomeFeatures.addSprings(gen);
 
-        // Trees — small first (most common), then medium, then giant (rarest)
+        // Trees
         gen.feature(GenerationStep.Feature.VEGETAL_DECORATION,
                 ModPlacedFeatures.SMALL_REDWOOD_PLACED_KEY);
         gen.feature(GenerationStep.Feature.VEGETAL_DECORATION,
@@ -52,18 +53,17 @@ public class ModOverworldBiomes {
         gen.feature(GenerationStep.Feature.VEGETAL_DECORATION,
                 ModPlacedFeatures.GIANT_SEQUOIA_PLACED_KEY);
 
-        // Atmospheric water-color effects — dark, deep forest feel
         BiomeEffects effects = new BiomeEffects.Builder()
-                .waterColor(0x3B6CD1)
                 .grassColor(0x4A7A2E)
                 .foliageColor(0x2D6B1A)
                 .build();
 
+        // Final biome
         return new Biome.Builder()
                 .precipitation(true)
-                .temperature(0.6F)   // slightly cooler — dense forest
-                .downfall(0.9F)      // very wet — lush undergrowth
-                .effects(effects)
+                .temperature(0.6F)
+                .downfall(0.9F)
+                .effects(effects) // only once
                 .spawnSettings(spawnBuilder.build())
                 .generationSettings(gen.build())
                 .build();
