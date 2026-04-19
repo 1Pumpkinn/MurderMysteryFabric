@@ -4,9 +4,11 @@
     "minecraft:cave_extra_underground",
     "minecraft:canyon"
   ],
-  "downfall": 0.0,
+  "downfall": 0.8,
   "effects": {
-    "water_color": "#93cafd"
+    "foliage_color": "#2d6b1a",
+    "grass_color": "#4a7a2e",
+    "water_color": "#3b6cd1"
   },
   "features": [
     [],
@@ -15,7 +17,10 @@
       "minecraft:lake_lava_surface"
     ],
     [],
-    [],
+    [
+      "minecraft:monster_room",
+      "minecraft:monster_room_deep"
+    ],
     [],
     [],
     [
@@ -44,18 +49,24 @@
       "minecraft:ore_lapis",
       "minecraft:ore_lapis_buried",
       "minecraft:ore_copper",
-      "minecraft:underwater_magma"
+      "minecraft:underwater_magma",
+      "minecraft:disk_sand",
+      "minecraft:disk_clay",
+      "minecraft:disk_gravel"
     ],
     [],
-    [],
+    [
+      "minecraft:spring_water",
+      "minecraft:spring_lava"
+    ],
     [
       "minecraft:glow_lichen",
-      "murdermysteryfabric:redwood_placed",
-      "murdermysteryfabric:redwood_placed",
+      "minecraft:brown_mushroom_normal",
+      "minecraft:red_mushroom_normal",
       "murdermysteryfabric:redwood_placed"
     ]
   ],
-  "has_precipitation": false,
+  "has_precipitation": true,
   "spawn_costs": {},
   "spawners": {
     "ambient": [],
@@ -92,5 +103,5 @@
     "water_ambient": [],
     "water_creature": []
   },
-  "temperature": -1.0
+  "temperature": 0.7
 }

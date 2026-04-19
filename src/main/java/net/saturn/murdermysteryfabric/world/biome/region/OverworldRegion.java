@@ -23,18 +23,28 @@ public class OverworldRegion extends Region {
     @Override
     public void addBiomes(Registry<Biome> registry, Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> mapper) {
         VanillaParameterOverlayBuilder builder = new VanillaParameterOverlayBuilder();
-        // Overlap Vanilla's parameters with our own for our COLD_BLUE biome.
-        // The parameters for this biome are chosen arbitrarily.
+
+        // Forest-appropriate parameters:
+        // - NEUTRAL to WARM temperature (not frozen/cold like before)
+        // - WET to HUMID humidity (forests are moist)
+        // - INLAND continentalness (not coastal, not ocean)
+        // - Low erosion (flat-ish terrain, not canyon/eroded cliffs)
+        // - Surface depth only
+        // - Multiple weirdness slices to appear frequently
         new ParameterPointListBuilder()
-                .temperature(Temperature.span(Temperature.COOL, Temperature.FROZEN))
-                .humidity(Humidity.span(Humidity.ARID, Humidity.DRY))
-                .continentalness(Continentalness.INLAND)
-                .erosion(Erosion.EROSION_0, Erosion.EROSION_1)
+                .temperature(Temperature.span(Temperature.NEUTRAL, Temperature.WARM))
+                .humidity(Humidity.span(Humidity.WET, Humidity.HUMID))
+                .continentalness(Continentalness.span(Continentalness.INLAND, Continentalness.FAR_INLAND))
+                .erosion(Erosion.EROSION_0, Erosion.EROSION_1, Erosion.EROSION_2)
                 .depth(Depth.SURFACE, Depth.FLOOR)
-                .weirdness(Weirdness.MID_SLICE_NORMAL_ASCENDING, Weirdness.MID_SLICE_NORMAL_DESCENDING)
+                .weirdness(
+                        Weirdness.LOW_SLICE_NORMAL_DESCENDING,
+                        Weirdness.MID_SLICE_NORMAL_ASCENDING,
+                        Weirdness.MID_SLICE_NORMAL_DESCENDING,
+                        Weirdness.HIGH_SLICE_NORMAL_ASCENDING
+                )
                 .build().forEach(point -> builder.add(point, ModBiomes.KAUPEN_VALLEY));
 
-        // Add our points to the mapper
         builder.build().forEach(mapper);
     }
 }
