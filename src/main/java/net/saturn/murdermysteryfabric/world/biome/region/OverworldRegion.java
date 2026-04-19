@@ -16,21 +16,17 @@ import java.util.function.Consumer;
 import static terrablender.api.ParameterUtils.*;
 
 public class OverworldRegion extends Region {
+
     public OverworldRegion(Identifier name, int weight) {
         super(name, RegionType.OVERWORLD, weight);
     }
 
     @Override
-    public void addBiomes(Registry<Biome> registry, Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> mapper) {
+    public void addBiomes(Registry<Biome> registry,
+                          Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> mapper) {
+
         VanillaParameterOverlayBuilder builder = new VanillaParameterOverlayBuilder();
 
-        // Forest-appropriate parameters:
-        // - NEUTRAL to WARM temperature (not frozen/cold like before)
-        // - WET to HUMID humidity (forests are moist)
-        // - INLAND continentalness (not coastal, not ocean)
-        // - Low erosion (flat-ish terrain, not canyon/eroded cliffs)
-        // - Surface depth only
-        // - Multiple weirdness slices to appear frequently
         new ParameterPointListBuilder()
                 .temperature(Temperature.span(Temperature.NEUTRAL, Temperature.WARM))
                 .humidity(Humidity.span(Humidity.WET, Humidity.HUMID))
@@ -43,7 +39,8 @@ public class OverworldRegion extends Region {
                         Weirdness.MID_SLICE_NORMAL_DESCENDING,
                         Weirdness.HIGH_SLICE_NORMAL_ASCENDING
                 )
-                .build().forEach(point -> builder.add(point, ModBiomes.KAUPEN_VALLEY));
+                .build()
+                .forEach(point -> builder.add(point, ModBiomes.MIXED_REDWOOD_FOREST));
 
         builder.build().forEach(mapper);
     }

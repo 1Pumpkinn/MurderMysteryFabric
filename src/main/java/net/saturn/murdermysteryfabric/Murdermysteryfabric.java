@@ -35,6 +35,6 @@ public class Murdermysteryfabric implements ModInitializer, TerraBlenderApi {
         ModBiomes.registerBiomes();
 
         // Register our surface rules
-        SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MODID, ModMaterialRules.makeKaupenValleyRules());
+        SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MODID, ModMaterialRules.makeMixedRedwoodForestRules());
     }
 }

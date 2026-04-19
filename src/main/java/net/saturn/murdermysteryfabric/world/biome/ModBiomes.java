@@ -10,26 +10,31 @@ import net.saturn.murdermysteryfabric.world.biome.region.OverworldRegion;
 import terrablender.api.Regions;
 
 public class ModBiomes {
-    public static final RegistryKey<Biome> KAUPEN_VALLEY = registerBiomeKey("kaupen_valley");
+
+    public static final RegistryKey<Biome> MIXED_REDWOOD_FOREST =
+            registerBiomeKey("mixed_redwood_forest");
 
     public static void registerBiomes() {
-        Regions.register(new OverworldRegion(Identifier.of(Murdermysteryfabric.MODID, "murdermysteryfabric_overworld"), 20));
-
+        Regions.register(new OverworldRegion(
+                Identifier.of(Murdermysteryfabric.MODID, "murdermysteryfabric_overworld"),
+                20
+        ));
     }
 
     public static void bootstrap(Registerable<Biome> context) {
         var carver = context.getRegistryLookup(RegistryKeys.CONFIGURED_CARVER);
         var placedFeatures = context.getRegistryLookup(RegistryKeys.PLACED_FEATURE);
 
-        register(context, KAUPEN_VALLEY, ModOverworldBiomes.kaupenValley(placedFeatures, carver));
+        context.register(MIXED_REDWOOD_FOREST,
+                ModOverworldBiomes.mixedRedwoodForest(placedFeatures, carver));
     }
-
 
     private static void register(Registerable<Biome> context, RegistryKey<Biome> key, Biome biome) {
         context.register(key, biome);
     }
 
     private static RegistryKey<Biome> registerBiomeKey(String name) {
-        return RegistryKey.of(RegistryKeys.BIOME, Identifier.of(Murdermysteryfabric.MODID, name));
+        return RegistryKey.of(RegistryKeys.BIOME,
+                Identifier.of(Murdermysteryfabric.MODID, name));
     }
 }

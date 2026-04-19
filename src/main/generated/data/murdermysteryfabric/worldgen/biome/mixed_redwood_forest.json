@@ -63,7 +63,9 @@
       "minecraft:glow_lichen",
       "minecraft:brown_mushroom_normal",
       "minecraft:red_mushroom_normal",
-      "murdermysteryfabric:redwood_placed"
+      "murdermysteryfabric:small_redwood_placed",
+      "murdermysteryfabric:medium_redwood_placed",
+      "murdermysteryfabric:giant_sequoia_placed"
     ]
   ],
   "has_precipitation": true,
