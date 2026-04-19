@@ -10,7 +10,9 @@ import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.foliage.MegaPineFoliagePlacer;
+import net.minecraft.world.gen.foliage.SpruceFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
+import net.minecraft.world.gen.trunk.DarkOakTrunkPlacer;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 import net.minecraft.world.gen.trunk.MegaJungleTrunkPlacer;
 import net.saturn.murdermysteryfabric.Murdermysteryfabric;
@@ -42,12 +44,12 @@ public class ModConfiguredFeatures {
         register(context, SMALL_REDWOOD_KEY, Feature.TREE,
                 new TreeFeatureConfig.Builder(
                         BlockStateProvider.of(ModBlocks.REDWOOD_LOG),
-                        new StraightTrunkPlacer(8, 2, 1),
+                        new StraightTrunkPlacer(16, 3, 2),  // 16-21 blocks tall bare trunk
                         BlockStateProvider.of(ModBlocks.REDWOOD_LEAVES),
                         new MegaPineFoliagePlacer(
                                 ConstantIntProvider.create(0),
                                 ConstantIntProvider.create(0),
-                                UniformIntProvider.create(10, 13)  // minimum 10 layers always covers the tip
+                                UniformIntProvider.create(5, 7)  // small crown, only at the top
                         ),
                         new TwoLayersFeatureSize(1, 0, 1)
                 )
@@ -62,12 +64,12 @@ public class ModConfiguredFeatures {
         register(context, MEDIUM_REDWOOD_KEY, Feature.TREE,
                 new TreeFeatureConfig.Builder(
                         BlockStateProvider.of(ModBlocks.REDWOOD_LOG),
-                        new StraightTrunkPlacer(14, 2, 1),
+                        new StraightTrunkPlacer(24, 4, 2),  // 24-30 blocks tall bare trunk
                         BlockStateProvider.of(ModBlocks.REDWOOD_LEAVES),
                         new MegaPineFoliagePlacer(
                                 ConstantIntProvider.create(0),
                                 ConstantIntProvider.create(0),
-                                UniformIntProvider.create(13, 17)
+                                UniformIntProvider.create(6, 9)
                         ),
                         new TwoLayersFeatureSize(1, 0, 2)
                 )
@@ -84,12 +86,11 @@ public class ModConfiguredFeatures {
         register(context, GIANT_SEQUOIA_KEY, Feature.TREE,
                 new TreeFeatureConfig.Builder(
                         BlockStateProvider.of(ModBlocks.REDWOOD_LOG),
-                        new MegaJungleTrunkPlacer(30, 6, 6),
-                        BlockStateProvider.of(ModBlocks.REDWOOD_LEAVES),
-                        new MegaPineFoliagePlacer(
-                                ConstantIntProvider.create(0),    // radius (mega placers spread automatically)
-                                ConstantIntProvider.create(0),    // offset
-                                UniformIntProvider.create(10, 16) // crown height
+                        new DarkOakTrunkPlacer(16, 8, 4),                        BlockStateProvider.of(ModBlocks.REDWOOD_LEAVES),
+                        new SpruceFoliagePlacer(
+                                UniformIntProvider.create(3, 5),  // radius — wide layers
+                                UniformIntProvider.create(0, 0),  // offset
+                                UniformIntProvider.create(8, 12)  // trunk height (controls where leaves start)
                         ),
                         new TwoLayersFeatureSize(1, 1, 2)
                 )
@@ -117,13 +118,19 @@ public class ModConfiguredFeatures {
         // A single horizontal redwood log sitting on the ground.
         // We use FOREST_ROCK as a structural analogue — it places a single block.
         // For a "fallen log" we place a horizontal log via simple block feature.
-        register(context, FALLEN_LOG_KEY, Feature.SIMPLE_BLOCK,
-                new SimpleBlockFeatureConfig(
-                        BlockStateProvider.of(
-                                ModBlocks.REDWOOD_LOG.getDefaultState()
-                                        .with(net.minecraft.state.property.Properties.AXIS,
-                                                net.minecraft.util.math.Direction.Axis.X)
-                        )
+        register(context, FALLEN_LOG_KEY, Feature.RANDOM_PATCH,
+                new RandomPatchFeatureConfig(
+                        4,  // tries
+                        1,  // xz spread — very tight, forces them close in a line
+                        0,  // no y spread
+                        PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK,
+                                new SimpleBlockFeatureConfig(
+                                        BlockStateProvider.of(
+                                                ModBlocks.REDWOOD_LOG.getDefaultState()
+                                                        .with(net.minecraft.state.property.Properties.AXIS,
+                                                                net.minecraft.util.math.Direction.Axis.Z)
+                                        )
+                                ))
                 )
         );
 
