@@ -1,4 +1,4 @@
-package net.kaupenjoe.tutorialmod.item.custom;
+package net.saturn.murdermysteryfabric.item.custom;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;

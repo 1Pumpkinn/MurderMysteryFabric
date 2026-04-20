@@ -9,20 +9,21 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
- * Makes the gun glow when dropped on the ground.
- */
 @Mixin(ItemEntity.class)
 public abstract class ItemEntityMixin {
 
     @Shadow public abstract ItemStack getStack();
 
-    @Inject(method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V", at = @At("RETURN"))
+    // Target the full constructor (EntityType, World, double, double, double, ItemStack)
+    // The (EntityType, World) constructor doesn't have the stack set yet
+    @Inject(
+            method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V",
+            at = @At("RETURN")
+    )
     private void onInit(CallbackInfo ci) {
         ItemEntity self = (ItemEntity) (Object) this;
-        
-        // Make gun glow when dropped
-        if (getStack().getItem() == ModItems.GUN) {
+        ItemStack stack = getStack();
+        if (!stack.isEmpty() && stack.getItem() == ModItems.GUN) {
             self.setGlowing(true);
         }
     }

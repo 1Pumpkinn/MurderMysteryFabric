@@ -5,8 +5,10 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.saturn.murdermysteryfabric.game.GameManager;
@@ -19,40 +21,36 @@ public class KnifeItem extends Item {
         super(settings);
     }
 
-    /**
-     * In 1.21.11 postHit returns void.
-     * We use this to enforce 1-shot kills and suppress subtitles.
-     */
     @Override
     public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (!(attacker instanceof ServerPlayerEntity attackerPlayer)) return;
-        if (!(target instanceof ServerPlayerEntity targetPlayer)) return;
-
-        // getEntityWorld() on ServerPlayerEntity returns ServerWorld in 1.21.11
-        World world = attacker.getEntityWorld();
-        if (world.isClient()) return;
+        if (!(attacker.getEntityWorld() instanceof ServerWorld serverWorld)) return;
 
         GameManager gm = GameManager.getInstance();
+        if (!gm.isGameRunning()) return;
 
-        // Only the murderer can kill with the knife
         if (gm.getRole(attackerPlayer) != GameRole.MURDERER) {
-            targetPlayer.setHealth(Math.min(targetPlayer.getHealth() + 20f, targetPlayer.getMaxHealth()));
-            attackerPlayer.sendMessage(Text.literal("Only the Murderer can use the knife!"), true);
+            if (target instanceof ServerPlayerEntity targetPlayer) {
+                // Undo the damage
+                targetPlayer.setHealth(Math.min(targetPlayer.getHealth() + 20f, targetPlayer.getMaxHealth()));
+            }
+            attackerPlayer.sendMessage(
+                    Text.literal("Only the Murderer can use the knife!").formatted(Formatting.RED), true);
             return;
         }
 
-        // 1-shot kill
-        targetPlayer.setHealth(0f);
+        if (target instanceof ServerPlayerEntity targetPlayer) {
+            targetPlayer.setHealth(0f);
+        } else {
+            // Non-player hit (e.g. mob) — just deal lethal damage
+            target.damage(serverWorld, serverWorld.getDamageSources().playerAttack(attackerPlayer), Float.MAX_VALUE);
+        }
 
-        // Play on MASTER category — subtitles only show for VOICE/AMBIENT/RECORD/WEATHER/BLOCK/HOSTILE/NEUTRAL/PLAYER/MUSIC
-        // MASTER bypasses subtitle rendering entirely
-        world.playSound(
-                null,
+        serverWorld.playSound(null,
                 attacker.getX(), attacker.getY(), attacker.getZ(),
                 ModSounds.KNIFE_STAB,
                 SoundCategory.MASTER,
-                1.0f, 1.0f
-        );
+                1.0f, 1.0f);
     }
 
     @Override

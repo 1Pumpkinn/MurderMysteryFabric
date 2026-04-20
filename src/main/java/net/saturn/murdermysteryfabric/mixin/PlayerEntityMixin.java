@@ -13,22 +13,19 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/**
- * Prevents the Detective from manually dropping the gun.
- */
 @Mixin(PlayerEntity.class)
 public class PlayerEntityMixin {
 
     @Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;Z)Lnet/minecraft/entity/ItemEntity;", at = @At("HEAD"), cancellable = true)
     private void preventDetectiveDropGun(ItemStack stack, boolean throwRandomly, CallbackInfoReturnable<net.minecraft.entity.ItemEntity> cir) {
-        PlayerEntity player = (PlayerEntity) (Object) this;
-        
-        if (stack.getItem() == ModItems.GUN && player instanceof ServerPlayerEntity serverPlayer) {
-            GameManager gm = GameManager.getInstance();
-            if (gm.isGameRunning() && gm.getRole(serverPlayer) == GameRole.DETECTIVE) {
-                serverPlayer.sendMessage(Text.literal("You cannot drop the gun! You must use it to eliminate the Murderer.").formatted(Formatting.RED), true);
-                cir.setReturnValue(null);
-            }
+        if (stack.getItem() != ModItems.GUN) return;
+        if (!(((PlayerEntity)(Object)this) instanceof ServerPlayerEntity serverPlayer)) return;
+
+        GameManager gm = GameManager.getInstance();
+        if (gm.isGameRunning() && gm.getRole(serverPlayer) == GameRole.DETECTIVE) {
+            serverPlayer.sendMessage(
+                    Text.literal("You cannot drop the gun!").formatted(Formatting.RED), true);
+            cir.setReturnValue(null);
         }
     }
 }

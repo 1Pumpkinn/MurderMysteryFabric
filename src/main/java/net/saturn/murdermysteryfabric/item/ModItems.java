@@ -1,6 +1,5 @@
 package net.saturn.murdermysteryfabric.item;
 
-import net.kaupenjoe.tutorialmod.item.custom.TomahawkItem;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -14,6 +13,7 @@ import net.minecraft.util.Identifier;
 import net.saturn.murdermysteryfabric.Murdermysteryfabric;
 import net.saturn.murdermysteryfabric.item.custom.GunItem;
 import net.saturn.murdermysteryfabric.item.custom.KnifeItem;
+import net.saturn.murdermysteryfabric.item.custom.TomahawkItem;
 
 import java.util.function.Function;
 

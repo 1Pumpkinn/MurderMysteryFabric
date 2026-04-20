@@ -19,8 +19,9 @@ import net.saturn.murdermysteryfabric.entity.ModEntities;
 public class BulletEntity extends ProjectileEntity {
 
     private static final double SPEED = 3.0;
-    private int life = 0;
     private static final int MAX_LIFE = 100;
+
+    private int life = 0;
 
     public BulletEntity(EntityType<? extends BulletEntity> entityType, World world) {
         super(entityType, world);
@@ -28,81 +29,71 @@ public class BulletEntity extends ProjectileEntity {
 
     public BulletEntity(World world, LivingEntity owner) {
         super(ModEntities.BULLET, world);
-        this.setOwner(owner);
-        this.setPosition(owner.getEyePos());
-
-        Vec3d lookVec = owner.getRotationVec(1.0F);
-        this.setVelocity(lookVec.multiply(SPEED));
-
-        this.setInvisible(true);
-        this.setNoGravity(true);
+        setOwner(owner);
+        setPosition(owner.getEyePos());
+        setVelocity(owner.getRotationVec(1.0F).multiply(SPEED));
+        setInvisible(true);
+        setNoGravity(true);
     }
 
     @Override
-    protected void initDataTracker(DataTracker.Builder builder) {
-        // No custom tracked data
-    }
+    protected void initDataTracker(DataTracker.Builder builder) {}
 
     @Override
     public void tick() {
         super.tick();
 
-        life++;
-        if (life > MAX_LIFE) {
-            this.discard();
+        if (++life > MAX_LIFE) {
+            discard();
             return;
         }
 
-        HitResult hitResult = ProjectileUtil.getCollision(this, this::canHit);
-        if (hitResult.getType() != HitResult.Type.MISS) {
-            this.onCollision(hitResult);
+        HitResult hit = ProjectileUtil.getCollision(this, this::canHit);
+        if (hit.getType() != HitResult.Type.MISS) {
+            onCollision(hit);
+            return;
         }
 
-        Vec3d velocity = this.getVelocity();
-        this.setPosition(
-                this.getX() + velocity.x,
-                this.getY() + velocity.y,
-                this.getZ() + velocity.z
-        );
+        Vec3d vel = getVelocity();
+        setPosition(getX() + vel.x, getY() + vel.y, getZ() + vel.z);
     }
 
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
 
-        Entity hitEntity = entityHitResult.getEntity();
-        Entity owner = this.getOwner();
+        Entity hit = entityHitResult.getEntity();
+        Entity owner = getOwner();
+        if (hit == owner) return;
+        if (!(getEntityWorld() instanceof ServerWorld serverWorld)) return;
 
-        if (hitEntity == owner) return;
-        if (!(this.getEntityWorld() instanceof ServerWorld serverWorld)) return;
-
-        if (hitEntity instanceof LivingEntity) {
-            hitEntity.damage(serverWorld,
+        if (hit instanceof LivingEntity living) {
+            living.damage(serverWorld,
                     serverWorld.getDamageSources().mobProjectile(this, owner instanceof LivingEntity le ? le : null),
                     1000.0F);
         }
 
-        this.discard();
+        discard();
     }
 
     @Override
     protected void onBlockHit(BlockHitResult blockHitResult) {
         super.onBlockHit(blockHitResult);
-        this.discard();
+        discard();
     }
 
     @Override
     protected boolean canHit(Entity entity) {
-        return super.canHit(entity) && entity != this.getOwner();
+        return super.canHit(entity) && entity != getOwner();
     }
 
     @Override
     protected void readCustomData(ReadView view) {
-        this.life = view.getInt("Life", 0);
+        life = view.getInt("Life", 0);
     }
 
     @Override
     protected void writeCustomData(WriteView view) {
-        view.putInt("Life", this.life);
+        view.putInt("Life", life);
     }
 }

@@ -22,15 +22,10 @@ public class GunItem extends Item {
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         if (!world.isClient()) {
-            // Create and spawn custom bullet projectile
-            BulletEntity bullet = new BulletEntity(world, user);
-            world.spawnEntity(bullet);
-            
-            // Play gun sound
-            world.playSound(null, user.getX(), user.getY(), user.getZ(), 
+            world.spawnEntity(new BulletEntity(world, user));
+            world.playSound(null, user.getX(), user.getY(), user.getZ(),
                     SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 0.5F, 1.5F);
         }
-        
         return ActionResult.SUCCESS;
     }
 
