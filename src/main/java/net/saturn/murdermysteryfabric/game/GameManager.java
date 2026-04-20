@@ -162,6 +162,8 @@ public class GameManager {
             return;
         }
 
+        // Check the roles map directly rather than iterating getPlayerList(),
+        // which may still include the just-killed player as a spectator.
         long aliveNonMurderers = server.getPlayerManager().getPlayerList().stream()
                 .filter(p -> !p.getUuid().equals(killed.getUuid()))
                 .filter(p -> {

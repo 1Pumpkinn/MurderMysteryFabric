@@ -31,7 +31,6 @@ public class KnifeItem extends Item {
 
         if (gm.getRole(attackerPlayer) != GameRole.MURDERER) {
             if (target instanceof ServerPlayerEntity targetPlayer) {
-                // Undo the damage
                 targetPlayer.setHealth(Math.min(targetPlayer.getHealth() + 20f, targetPlayer.getMaxHealth()));
             }
             attackerPlayer.sendMessage(
@@ -39,19 +38,24 @@ public class KnifeItem extends Item {
             return;
         }
 
-        if (target instanceof ServerPlayerEntity targetPlayer) {
-            targetPlayer.setHealth(0f);
-        } else {
-            // Non-player hit (e.g. mob) — just deal lethal damage
-            target.damage(serverWorld, serverWorld.getDamageSources().playerAttack(attackerPlayer), Float.MAX_VALUE);
-        }
-
         serverWorld.playSound(null,
                 attacker.getX(), attacker.getY(), attacker.getZ(),
                 ModSounds.KNIFE_STAB,
                 SoundCategory.MASTER,
                 1.0f, 1.0f);
+
+        if (target instanceof ServerPlayerEntity targetPlayer) {
+            // Use proper damage source so the full death pipeline fires
+            targetPlayer.damage(serverWorld,
+                    serverWorld.getDamageSources().playerAttack(attackerPlayer),
+                    Float.MAX_VALUE);
+        } else {
+            target.damage(serverWorld,
+                    serverWorld.getDamageSources().playerAttack(attackerPlayer),
+                    Float.MAX_VALUE);
+        }
     }
+
 
     @Override
     public boolean canMine(ItemStack stack, BlockState state, World world, BlockPos pos, LivingEntity miner) {

@@ -1,19 +1,17 @@
 package net.saturn.murdermysteryfabric.mixin;
 
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.GameMode;
 import net.saturn.murdermysteryfabric.game.GameManager;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerPlayerEntity.class)
 public class PlayerDeathMixin {
-
-    @Shadow public net.minecraft.server.MinecraftServer server;
 
     @Inject(method = "onDeath", at = @At("HEAD"))
     private void clearInventoryOnDeath(DamageSource source, CallbackInfo ci) {
@@ -36,8 +34,9 @@ public class PlayerDeathMixin {
             }
         }
 
-        if (server != null) {
-            gm.onPlayerDeath(player, server);
+        MinecraftServer srv = player.getEntityWorld().toServerWorld().getServer();
+        if (srv != null) {
+            gm.onPlayerDeath(player, srv);
         }
     }
 }
