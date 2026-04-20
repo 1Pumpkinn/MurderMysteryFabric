@@ -8,12 +8,14 @@ import net.saturn.murdermysteryfabric.item.ModItemGroups;
 import net.saturn.murdermysteryfabric.item.ModItems;
 import net.saturn.murdermysteryfabric.sound.ModSounds;
 import net.saturn.murdermysteryfabric.world.biome.ModBiomes;
-import net.saturn.murdermysteryfabric.world.biome.ModMaterialRules;
 import net.saturn.murdermysteryfabric.world.gen.ModWorldGeneration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Murdermysteryfabric implements ModInitializer {
 
     public static final String MODID = "murdermysteryfabric";
+    public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
     @Override
     public void onInitialize() {
