@@ -8,7 +8,7 @@
           "to_place": {
             "type": "minecraft:simple_state_provider",
             "state": {
-              "Name": "minecraft:short_grass"
+              "Name": "minecraft:fern"
             }
           }
         }
@@ -23,8 +23,8 @@
         }
       ]
     },
-    "tries": 32,
+    "tries": 8,
     "xz_spread": 4,
-    "y_spread": 2
+    "y_spread": 1
   }
 }

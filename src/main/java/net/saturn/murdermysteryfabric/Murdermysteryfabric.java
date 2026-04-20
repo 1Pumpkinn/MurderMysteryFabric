@@ -1,5 +1,4 @@
-package net.saturn.murdermysteryfabric;
-
+package net.saturn.murdermysteryfabric;// Remove these imports:
 import net.fabricmc.api.ModInitializer;
 import net.saturn.murdermysteryfabric.block.ModBlocks;
 import net.saturn.murdermysteryfabric.command.ModCommands;
@@ -11,10 +10,11 @@ import net.saturn.murdermysteryfabric.sound.ModSounds;
 import net.saturn.murdermysteryfabric.world.biome.ModBiomes;
 import net.saturn.murdermysteryfabric.world.biome.ModMaterialRules;
 import net.saturn.murdermysteryfabric.world.gen.ModWorldGeneration;
-import terrablender.api.SurfaceRuleManager;
-import terrablender.api.TerraBlenderApi;
 
-public class Murdermysteryfabric implements ModInitializer, TerraBlenderApi {
+// Remove implements TerraBlenderApi
+// Remove onTerraBlenderInitialized() entirely
+// Move biome registration into onInitialize() using Fabric API's BiomeModifications
+public class Murdermysteryfabric implements ModInitializer {
 
     public static final String MODID = "murdermysteryfabric";
 
@@ -28,13 +28,6 @@ public class Murdermysteryfabric implements ModInitializer, TerraBlenderApi {
         ModCommands.register();
         ModEvents.register();
         ModWorldGeneration.generateModWorldGeneration();
-    }
-
-    @Override
-    public void onTerraBlenderInitialized() {
         ModBiomes.registerBiomes();
-
-        // Register our surface rules
-        SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MODID, ModMaterialRules.makeMixedRedwoodForestRules());
     }
 }

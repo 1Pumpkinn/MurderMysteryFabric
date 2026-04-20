@@ -14,38 +14,32 @@ public class ModOverworldBiomes {
             RegistryEntryLookup<PlacedFeature> placedFeatureGetter,
             RegistryEntryLookup<ConfiguredCarver<?>> carverGetter) {
 
-        // Spawn settings
         SpawnSettings.Builder spawnBuilder = new SpawnSettings.Builder();
         DefaultBiomeFeatures.addFarmAnimals(spawnBuilder);
 
-        // Generation settings
         GenerationSettings.LookupBackedBuilder gen =
                 new GenerationSettings.LookupBackedBuilder(placedFeatureGetter, carverGetter);
 
-        // Underground features
         DefaultBiomeFeatures.addLandCarvers(gen);
         DefaultBiomeFeatures.addAmethystGeodes(gen);
         DefaultBiomeFeatures.addDungeons(gen);
         DefaultBiomeFeatures.addMineables(gen);
         DefaultBiomeFeatures.addDefaultOres(gen);
         DefaultBiomeFeatures.addDefaultDisks(gen);
+        DefaultBiomeFeatures.addSprings(gen);
 
-        // Forest floor details
         gen.feature(GenerationStep.Feature.VEGETAL_DECORATION,
                 ModPlacedFeatures.FOREST_FLOOR_VEGETATION_PLACED_KEY);
+        gen.feature(GenerationStep.Feature.VEGETAL_DECORATION,
+                ModPlacedFeatures.LARGE_FERNS_PLACED_KEY);
+        gen.feature(GenerationStep.Feature.VEGETAL_DECORATION,
+                ModPlacedFeatures.BROWN_MUSHROOMS_PLACED_KEY);
+        gen.feature(GenerationStep.Feature.VEGETAL_DECORATION,
+                ModPlacedFeatures.RED_MUSHROOMS_PLACED_KEY);
         gen.feature(GenerationStep.Feature.VEGETAL_DECORATION,
                 ModPlacedFeatures.FALLEN_LOG_PLACED_KEY);
         gen.feature(GenerationStep.Feature.VEGETAL_DECORATION,
                 ModPlacedFeatures.FOREST_ROCKS_PLACED_KEY);
-
-        // Vegetation
-        DefaultBiomeFeatures.addDefaultMushrooms(gen);
-        DefaultBiomeFeatures.addDefaultVegetation(gen, false);
-
-        // Springs
-        DefaultBiomeFeatures.addSprings(gen);
-
-        // Trees
         gen.feature(GenerationStep.Feature.VEGETAL_DECORATION,
                 ModPlacedFeatures.SMALL_REDWOOD_PLACED_KEY);
         gen.feature(GenerationStep.Feature.VEGETAL_DECORATION,
@@ -54,16 +48,16 @@ public class ModOverworldBiomes {
                 ModPlacedFeatures.GIANT_SEQUOIA_PLACED_KEY);
 
         BiomeEffects effects = new BiomeEffects.Builder()
-                .grassColor(0x4A7A2E)
+                .waterColor(0x3B6CD1)
                 .foliageColor(0x2D6B1A)
+                .grassColor(0x4A7A2E)
                 .build();
 
-        // Final biome
         return new Biome.Builder()
                 .precipitation(true)
                 .temperature(0.6F)
                 .downfall(0.9F)
-                .effects(effects) // only once
+                .effects(effects)
                 .spawnSettings(spawnBuilder.build())
                 .generationSettings(gen.build())
                 .build();

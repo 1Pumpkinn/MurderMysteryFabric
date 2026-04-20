@@ -1,47 +1,23 @@
 package net.saturn.murdermysteryfabric.world.biome.region;
 
-import com.mojang.datafixers.util.Pair;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.biome.Biome;
+import com.terraformersmc.biolith.api.biome.BiomePlacement;
 import net.minecraft.world.biome.source.util.MultiNoiseUtil;
 import net.saturn.murdermysteryfabric.world.biome.ModBiomes;
-import terrablender.api.Region;
-import terrablender.api.RegionType;
-import terrablender.api.VanillaParameterOverlayBuilder;
 
-import java.util.function.Consumer;
+public class OverworldRegion {
 
-import static terrablender.api.ParameterUtils.*;
-
-public class OverworldRegion extends Region {
-
-    public OverworldRegion(Identifier name, int weight) {
-        super(name, RegionType.OVERWORLD, weight);
-    }
-
-    @Override
-    public void addBiomes(Registry<Biome> registry,
-                          Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> mapper) {
-
-        VanillaParameterOverlayBuilder builder = new VanillaParameterOverlayBuilder();
-
-        new ParameterPointListBuilder()
-                .temperature(Temperature.span(Temperature.NEUTRAL, Temperature.WARM))
-                .humidity(Humidity.span(Humidity.WET, Humidity.HUMID))
-                .continentalness(Continentalness.span(Continentalness.INLAND, Continentalness.FAR_INLAND))
-                .erosion(Erosion.EROSION_0, Erosion.EROSION_1, Erosion.EROSION_2)
-                .depth(Depth.SURFACE, Depth.FLOOR)
-                .weirdness(
-                        Weirdness.LOW_SLICE_NORMAL_DESCENDING,
-                        Weirdness.MID_SLICE_NORMAL_ASCENDING,
-                        Weirdness.MID_SLICE_NORMAL_DESCENDING,
-                        Weirdness.HIGH_SLICE_NORMAL_ASCENDING
+    public static void register() {
+        BiomePlacement.addOverworld(
+                ModBiomes.MIXED_REDWOOD_FOREST,
+                MultiNoiseUtil.createNoiseHypercube(
+                        MultiNoiseUtil.ParameterRange.of(0.0F, 0.55F),   // temperature: NEUTRAL to WARM
+                        MultiNoiseUtil.ParameterRange.of(0.35F, 1.0F),   // humidity: WET to HUMID
+                        MultiNoiseUtil.ParameterRange.of(0.03F, 1.0F),   // continentalness: INLAND to FAR_INLAND
+                        MultiNoiseUtil.ParameterRange.of(-1.0F, 0.45F),  // erosion: EROSION_0 to EROSION_2
+                        MultiNoiseUtil.ParameterRange.of(0.0F, 0.0F),    // depth: SURFACE
+                        MultiNoiseUtil.ParameterRange.of(-0.93F, 0.4F),  // weirdness: normal slices
+                        0.0F                                              // offset
                 )
-                .build()
-                .forEach(point -> builder.add(point, ModBiomes.MIXED_REDWOOD_FOREST));
-
-        builder.build().forEach(mapper);
+        );
     }
 }

@@ -7,19 +7,15 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
 import net.saturn.murdermysteryfabric.Murdermysteryfabric;
 import net.saturn.murdermysteryfabric.world.biome.region.OverworldRegion;
-import terrablender.api.Regions;
 
 public class ModBiomes {
 
     public static final RegistryKey<Biome> MIXED_REDWOOD_FOREST =
             registerBiomeKey("mixed_redwood_forest");
 
-    public static void registerBiomes() {
-        Regions.register(new OverworldRegion(
-                Identifier.of(Murdermysteryfabric.MODID, "murdermysteryfabric_overworld"),
-                20
-        ));
-    }
+    // No more TerraBlender registerBiomes() — biome injection
+    // is now handled by the overworld_biome_source parameter list
+    // or via BiomeModifications for vanilla biome injection.
 
     public static void bootstrap(Registerable<Biome> context) {
         var carver = context.getRegistryLookup(RegistryKeys.CONFIGURED_CARVER);
@@ -29,12 +25,12 @@ public class ModBiomes {
                 ModOverworldBiomes.mixedRedwoodForest(placedFeatures, carver));
     }
 
-    private static void register(Registerable<Biome> context, RegistryKey<Biome> key, Biome biome) {
-        context.register(key, biome);
-    }
-
     private static RegistryKey<Biome> registerBiomeKey(String name) {
         return RegistryKey.of(RegistryKeys.BIOME,
                 Identifier.of(Murdermysteryfabric.MODID, name));
+    }
+
+    public static void registerBiomes() {
+        OverworldRegion.register();
     }
 }

@@ -64,11 +64,11 @@
     [
       "minecraft:glow_lichen",
       "murdermysteryfabric:forest_floor_vegetation_placed",
+      "murdermysteryfabric:large_ferns_placed",
+      "murdermysteryfabric:brown_mushrooms_placed",
+      "murdermysteryfabric:red_mushrooms_placed",
       "murdermysteryfabric:fallen_log_placed",
       "murdermysteryfabric:forest_rocks_placed",
-      "minecraft:brown_mushroom_normal",
-      "minecraft:red_mushroom_normal",
-      "minecraft:patch_pumpkin",
       "murdermysteryfabric:small_redwood_placed",
       "murdermysteryfabric:medium_redwood_placed",
       "murdermysteryfabric:giant_sequoia_placed"
