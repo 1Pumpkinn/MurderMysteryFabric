@@ -8,11 +8,11 @@
     "PlayerAttackMixin",
     "PlayerDeathMixin",
     "PlayerEntityMixin",
-    "PlayerInventoryMixin",
-    "PlayerMovementSpeedMixin"
+    "PlayerInventoryMixin"
   ],
   "client": [
     "HideNametagMixin",
+    "client.CameraAccessor",
     "client.RealisticHeadBobMixin",
     "client.DarkVisionMixin",
     "client.FogDistanceMixin"
