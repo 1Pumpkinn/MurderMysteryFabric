@@ -4,5 +4,6 @@ public enum GameRole {
     MURDERER,
     DETECTIVE,
     INVESTIGATOR,
+    CLEANER,
     NONE
 }

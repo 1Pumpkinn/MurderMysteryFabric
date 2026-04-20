@@ -92,7 +92,7 @@ public class GameManager {
             assign(players.get(0), GameRole.MURDERER, false);
             assign(players.get(1), GameRole.DETECTIVE, false);
             for (int i = 2; i < players.size(); i++) {
-                assign(players.get(i), GameRole.INVESTIGATOR, false);
+                assign(players.get(i), GameRole.CLEANER, false);
             }
         }
     }
@@ -114,7 +114,7 @@ public class GameManager {
                         Formatting.BLUE, Formatting.AQUA).append(Text.literal(debugTag)), false);
             }
             case INVESTIGATOR -> {
-                player.sendMessage(roleMessage("You are an ", "INVESTIGATOR", "! Collect evidence and survive.",
+                player.sendMessage(roleMessage("You are an ", "CLEANER", "! Collect evidence and survive.",
                         Formatting.GREEN, Formatting.DARK_GREEN), false);
             }
             default -> {}

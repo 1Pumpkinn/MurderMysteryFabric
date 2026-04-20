@@ -101,7 +101,7 @@ public class ModCommands {
                                                 .suggests((ctx, builder) -> {
                                                     builder.suggest("MURDERER");
                                                     builder.suggest("DETECTIVE");
-                                                    builder.suggest("INVESTIGATOR");
+                                                    builder.suggest("CLEANER");
                                                     return builder.buildFuture();
                                                 })
                                                 .executes(ctx -> {
@@ -126,7 +126,7 @@ public class ModCommands {
                                                         );
 
                                                     } catch (IllegalArgumentException e) {
-                                                        src.sendError(Text.literal("Invalid role. Use MURDERER, DETECTIVE, or INVESTIGATOR."));
+                                                        src.sendError(Text.literal("Invalid role. Use MURDERER, DETECTIVE, or CLEANER."));
                                                         return 0;
                                                     }
 
