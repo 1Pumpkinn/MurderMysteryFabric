@@ -12,50 +12,38 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
- * Amplifies the camera head-bob effect to feel more realistic and weighty.
- *
- * Layers three motions on top of vanilla bobbing:
- *   - Extra vertical dip on each footstep
- *   - Left/right roll (camera tilts into each step)
- *   - Subtle forward pitch sway
- *
- * Uses MinecraftClient.getInstance() instead of an accessor — GameRenderer
- * already has a public getClient() in 1.21.11 which conflicts with @Accessor.
- */
 @Environment(EnvType.CLIENT)
 @Mixin(GameRenderer.class)
 public class RealisticHeadBobMixin {
 
+    private float bobPhase = 0.0f;
+
     @Inject(method = "bobView", at = @At("TAIL"))
-    private void applyRealisticBob(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
+    private void applyHorrorCamera(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client == null || client.player == null) return;
 
         PlayerEntity player = client.player;
 
-        // Only bob when on the ground and actually moving
-        if (!player.isOnGround()) return;
+        // 🧠 Smooth timer instead of raw velocity chaos
+        bobPhase += tickDelta * 0.6f;
 
+        // 🌫️ Breathing effect (slow inhale/exhale)
+        float breath = MathHelper.sin(bobPhase * 0.8f) * 0.0025f;
+
+        // 🚶 Movement influence (very soft, not jittery)
         float speed = (float) player.getVelocity().horizontalLength();
-        if (speed < 0.01f) return;
+        float moveInfluence = MathHelper.clamp(speed * 0.3f, 0.0f, 0.03f);
 
-        // Scale intensity with movement speed (walk ~0.065, sprint ~0.080)
-        float bobStrength = MathHelper.clamp(speed / 0.065f, 0.0f, 1.8f);
+        // 🌙 subtle sway (NOT shake)
+        float swayX = MathHelper.sin(bobPhase * 0.5f) * moveInfluence;
+        float swayY = MathHelper.cos(bobPhase * 0.4f) * moveInfluence * 0.5f;
 
-        // Use horizontalSpeed as the bob phase — it increments each ground tick
-        float bobPhase = player.speed + tickDelta;
+        // apply breathing (vertical float)
+        matrices.translate(0.0, -breath, 0.0);
 
-        // Vertical dip — always downward, peaks at heel strike
-        float verticalBob = MathHelper.sin(bobPhase * (float) Math.PI) * bobStrength * 0.018f;
-        matrices.translate(0.0, -Math.abs(verticalBob), 0.0);
-
-        // Side roll — camera tilts left/right with each step
-        float rollAngle = MathHelper.sin(bobPhase * (float) Math.PI * 0.5f) * bobStrength * 1.8f;
-        matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_Z.rotationDegrees(rollAngle));
-
-        // Pitch sway — subtle forward lean on each step
-        float pitchSway = Math.abs(MathHelper.sin(bobPhase * (float) Math.PI)) * bobStrength * 0.4f;
-        matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_X.rotationDegrees(-pitchSway));
+        // apply very subtle sway (horror feel)
+        matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_X.rotationDegrees(swayY * 10.0f));
+        matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_Y.rotationDegrees(swayX * 8.0f));
     }
 }
