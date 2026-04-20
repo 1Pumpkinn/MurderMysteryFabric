@@ -3,7 +3,6 @@ package net.saturn.murdermysteryfabric.game;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -145,7 +144,7 @@ public class GameManager {
                 playerRoles.put(inv.getUuid(), GameRole.INVESTIGATOR);
                 inv.sendMessage(Text.literal("You are an ").formatted(Formatting.GREEN)
                         .append(Text.literal("INVESTIGATOR").formatted(Formatting.DARK_GREEN, Formatting.BOLD))
-                        .append(Text.literal("! Gather clues and survive.").formatted(Formatting.GREEN)), false);
+                );
             }
         }
 
