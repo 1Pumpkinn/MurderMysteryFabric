@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "murdermysteryfabric:block/redwood_leaves"
+  }
+}
