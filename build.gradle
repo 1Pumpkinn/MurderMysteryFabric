@@ -24,6 +24,7 @@ fabricApi {
 repositories {
     maven { url = "https://maven.minecraftforge.net/" }
     maven { url = "https://maven.terraformersmc.com/" }
+    maven { url = "https://api.modrinth.com/maven" }
     mavenCentral()
 }
 
@@ -36,9 +37,9 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    // FIXED Terraform API dependency
     modImplementation "com.terraformersmc:biolith-fabric:3.5.0-beta.3"
-}
+    modImplementation "maven.modrinth:cloth-config:21.11.153+fabric"
+    modImplementation "maven.modrinth:cameraoverhaul:2.0.6-fabric+mc.1.21.11-plus"}
 /* ---------------- RESOURCE PROCESSING ---------------- */
 
 processResources {
