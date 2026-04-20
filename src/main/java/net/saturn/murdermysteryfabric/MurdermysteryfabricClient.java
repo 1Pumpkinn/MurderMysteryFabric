@@ -22,11 +22,7 @@ public class MurdermysteryfabricClient implements ClientModInitializer {
 
         EntityRendererRegistry.register(ModEntities.BULLET, EmptyEntityRenderer::new);
 
-
         EntityModelLayerRegistry.registerModelLayer(ModEntityModelLayers.TOMAHAWK, TomahawkProjectileModel::getTexturedModelData);
         EntityRendererRegistry.register(ModEntities.TOMAHAWK, TomahawkProjectileRenderer::new);
-
-
-
     }
 }

@@ -8,10 +8,14 @@
     "PlayerAttackMixin",
     "PlayerDeathMixin",
     "PlayerEntityMixin",
-    "PlayerInventoryMixin"
+    "PlayerInventoryMixin",
+    "PlayerMovementSpeedMixin"
   ],
   "client": [
-    "HideNametagMixin"
+    "HideNametagMixin",
+    "client.RealisticHeadBobMixin",
+    "client.DarkVisionMixin",
+    "client.FogDistanceMixin"
   ],
   "injectors": {
     "defaultRequire": 1
