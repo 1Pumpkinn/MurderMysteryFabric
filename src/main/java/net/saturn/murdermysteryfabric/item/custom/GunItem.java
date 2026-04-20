@@ -11,7 +11,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.saturn.murdermysteryfabric.entity.BulletEntity;
+import net.saturn.murdermysteryfabric.entity.custom.BulletEntity;
 
 public class GunItem extends Item {
 

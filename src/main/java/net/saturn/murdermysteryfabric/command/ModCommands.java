@@ -22,7 +22,7 @@ public class ModCommands {
         return src.getPermissions().hasPermission(new Permission.Level(PermissionLevel.fromLevel(2)));
     }
 
-    public static void register() {
+    public static void registerModCommands() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
             dispatcher.register(literal("mm")
 

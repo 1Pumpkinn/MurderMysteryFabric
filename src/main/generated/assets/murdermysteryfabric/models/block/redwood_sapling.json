@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cross",
-  "textures": {
-    "cross": "murdermysteryfabric:block/redwood_sapling"
-  }
-}

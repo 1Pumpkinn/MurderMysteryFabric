@@ -12,7 +12,7 @@ public class ModEvents {
      * Registers all event listeners for the mod.
      * Should be called during mod initialization.
      */
-    public static void register() {
+    public static void registerModEvents() {
         // Register chat message filter to prevent dead players from chatting
         ServerMessageEvents.ALLOW_CHAT_MESSAGE.register((message, sender, params) -> {
             try {

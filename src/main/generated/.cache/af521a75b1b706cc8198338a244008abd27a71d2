@@ -1,8 +1,0 @@
-// 1.21.11	-999999999-01-01T00:00:00	MurderMysteryFabric/Block Loot Tables
-df23e873cfda86192a4a4a831d8d093c87b3c81f data/murdermysteryfabric/loot_table/blocks/redwood_leaves.json
-ef93f8d2916e843533998ffc30063cb8457f1942 data/murdermysteryfabric/loot_table/blocks/redwood_log.json
-e0f59974c982da00f266cfc37c54bdbe927c89c7 data/murdermysteryfabric/loot_table/blocks/redwood_planks.json
-1c3ec65ad3d0d231f3803de7a630a280b8586618 data/murdermysteryfabric/loot_table/blocks/redwood_sapling.json
-15f87b3707b825b9c548c695cce9c5e443df5b3c data/murdermysteryfabric/loot_table/blocks/redwood_wood.json
-f4c6c223d7c0f092900546ba6f30531656be7d8e data/murdermysteryfabric/loot_table/blocks/stripped_redwood_log.json
-9e0d94650e8631aa5762d8f57c443ac2babfa004 data/murdermysteryfabric/loot_table/blocks/stripped_redwood_wood.json

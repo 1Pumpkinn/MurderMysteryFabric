@@ -1,5 +1,6 @@
 package net.saturn.murdermysteryfabric.item;
 
+import net.kaupenjoe.tutorialmod.item.custom.TomahawkItem;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -14,24 +15,29 @@ import net.saturn.murdermysteryfabric.Murdermysteryfabric;
 import net.saturn.murdermysteryfabric.item.custom.GunItem;
 import net.saturn.murdermysteryfabric.item.custom.KnifeItem;
 
+import java.util.function.Function;
+
 public class ModItems {
 
-    // Murderer items
-    public static final Item KNIFE = register("knife",
-            new KnifeItem(new Item.Settings()
+    public static final Item TOMAHAWK = registerItem("tomahawk",
+            setting -> new TomahawkItem(setting.maxCount(16)));
+
+
+    public static final Item KNIFE = registerItem("knife",
+            settings -> new KnifeItem(settings
                     .registryKey(key("knife"))
                     .attributeModifiers(createKnifeModifiers())));
 
-    // Detective items
-    public static final Item GUN = register("gun",
-            new GunItem(new Item.Settings()
+    public static final Item GUN = registerItem("gun",
+            settings -> new GunItem(settings
                     .registryKey(key("gun"))
                     .maxCount(1)));
 
-    public static final Item EVIDENCE_FILE = register("evidence_file",
-            new Item(new Item.Settings()
+    public static final Item EVIDENCE_FILE = registerItem("evidence_file",
+            settings -> new Item(settings
                     .registryKey(key("evidence_file"))
                     .maxCount(1)));
+
 
     private static RegistryKey<Item> key(String name) {
         return RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Murdermysteryfabric.MODID, name));
@@ -50,11 +56,13 @@ public class ModItems {
                 .build();
     }
 
-    private static Item register(String name, Item item) {
-        return Registry.register(Registries.ITEM, Identifier.of(Murdermysteryfabric.MODID, name), item);
+
+    private static Item registerItem(String name, Function<Item.Settings, Item> function) {
+        return Registry.register(Registries.ITEM, Identifier.of(Murdermysteryfabric.MODID, name),
+                function.apply(new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Murdermysteryfabric.MODID, name)))));
     }
 
-    public static void initialize() {
+    public static void registerModItems() {
         // Ensure class is loaded
     }
 }

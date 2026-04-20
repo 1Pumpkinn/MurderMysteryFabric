@@ -1,4 +1,4 @@
-package net.saturn.murdermysteryfabric;// Remove these imports:
+package net.saturn.murdermysteryfabric;
 import net.fabricmc.api.ModInitializer;
 import net.saturn.murdermysteryfabric.block.ModBlocks;
 import net.saturn.murdermysteryfabric.command.ModCommands;
@@ -11,23 +11,20 @@ import net.saturn.murdermysteryfabric.world.biome.ModBiomes;
 import net.saturn.murdermysteryfabric.world.biome.ModMaterialRules;
 import net.saturn.murdermysteryfabric.world.gen.ModWorldGeneration;
 
-// Remove implements TerraBlenderApi
-// Remove onTerraBlenderInitialized() entirely
-// Move biome registration into onInitialize() using Fabric API's BiomeModifications
 public class Murdermysteryfabric implements ModInitializer {
 
     public static final String MODID = "murdermysteryfabric";
 
     @Override
     public void onInitialize() {
-        ModEntities.initialize();
-        ModItems.initialize();
+        ModEntities.registerModEntities();
+        ModItems.registerModItems();
         ModBlocks.registerModBlocks();
-        ModItemGroups.initialize();
-        ModSounds.initialize();
-        ModCommands.register();
-        ModEvents.register();
+        ModItemGroups.registerModItemGroups();
+        ModSounds.registerModSounds();
+        ModCommands.registerModCommands();
+        ModEvents.registerModEvents();
         ModWorldGeneration.generateModWorldGeneration();
-        ModBiomes.registerBiomes();
+        ModBiomes.registerModBiomes();
     }
 }

@@ -1,6 +1,10 @@
 {
   "item.murdermysteryfabric.knife": "Knife",
+  "item.murdermysteryfabric.gun": "Gun",
   "item.murdermysteryfabric.evidence_file": "Evidence File",
+
+  "item.murdermysteryfabric.spectre_staff": "Spectre Staff",
+
 
   "item.murdermysteryfabric.redwood_log": "Redwood Log",
   "item.murdermysteryfabric.redwood_wood": "Redwood Wood",

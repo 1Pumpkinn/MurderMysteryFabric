@@ -30,7 +30,7 @@ public class ModBiomes {
                 Identifier.of(Murdermysteryfabric.MODID, name));
     }
 
-    public static void registerBiomes() {
+    public static void registerModBiomes() {
         OverworldRegion.register();
     }
 }

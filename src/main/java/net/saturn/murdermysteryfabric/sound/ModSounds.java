@@ -17,7 +17,7 @@ public class ModSounds {
                 SoundEvent.of(Identifier.of(Murdermysteryfabric.MODID, name)));
     }
 
-    public static void initialize() {
+    public static void registerModSounds() {
         // Ensure class is loaded
     }
 }

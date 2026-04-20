@@ -21,7 +21,10 @@ public class ModItemGroups {
                     .entries((context, entries) -> {
                         // Items
                         entries.add(ModItems.KNIFE);
+                        entries.add(ModItems.GUN);
                         entries.add(ModItems.EVIDENCE_FILE);
+                        entries.add(ModItems.TOMAHAWK);
+
 
 
                        // Blocks
@@ -38,7 +41,7 @@ public class ModItemGroups {
                     })
                     .build());
 
-    public static void initialize() {
+    public static void registerModItemGroups() {
         // Ensure class is loaded
     }
 }
