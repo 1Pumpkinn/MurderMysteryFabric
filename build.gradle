@@ -39,7 +39,12 @@ dependencies {
 
     modImplementation "com.terraformersmc:biolith-fabric:3.5.0-beta.3"
     modImplementation "maven.modrinth:cloth-config:21.11.153+fabric"
-    modImplementation "maven.modrinth:cameraoverhaul:2.0.6-fabric+mc.1.21.11-plus"}
+    modImplementation "maven.modrinth:cameraoverhaul:2.0.6-fabric+mc.1.21.11-plus"
+
+    // TOML library required by Camera Overhaul at runtime
+    implementation "com.moandjiezana.toml:toml4j:0.7.2"
+}
+
 /* ---------------- RESOURCE PROCESSING ---------------- */
 
 processResources {

@@ -13,7 +13,7 @@
   "client": [
     "HideNametagMixin",
     "client.CameraAccessor",
-    "client.RealisticHeadBobMixin",
+    "client.BreathingCameraMixin",
     "client.DarkVisionMixin",
     "client.FogDistanceMixin"
   ],

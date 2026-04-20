@@ -1,0 +1,10 @@
+[general]
+enabled = true
+
+[intensity]
+# How much the camera rolls when strafing (0.0 - 2.0, default 1.0)
+strafingRoll = 1.2
+# How much the camera pitches when moving forward/back
+forwardVelocityPitch = 0.8
+# How much the camera rolls based on vertical velocity (falling/jumping)
+verticalVelocityPitch = 1.0
