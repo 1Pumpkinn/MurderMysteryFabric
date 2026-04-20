@@ -37,7 +37,7 @@ public class PlayerInventoryMixin {
             return;
         }
 
-        if (role == GameRole.INVESTIGATOR) {
+        if (role == GameRole.CLEANER) {
             gm.setRole(serverPlayer.getUuid(), GameRole.DETECTIVE);
             serverPlayer.sendMessage(
                     Text.literal("You picked up the gun! You are now the ")

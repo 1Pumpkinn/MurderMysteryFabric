@@ -3,8 +3,6 @@
   "item.murdermysteryfabric.gun": "Gun",
   "item.murdermysteryfabric.evidence_file": "Evidence File",
 
-  "item.murdermysteryfabric.spectre_staff": "Spectre Staff",
-
 
   "item.murdermysteryfabric.redwood_log": "Redwood Log",
   "item.murdermysteryfabric.redwood_wood": "Redwood Wood",
@@ -22,7 +20,7 @@
   "block.murdermysteryfabric.redwood_leaves": "Redwood Leaves",
   "block.murdermysteryfabric.redwood_sapling": "Redwood Sapling",
 
-  "itemGroup.murdermysteryfabric.murder_mystery": "Murder Mystery",
+  "itemGroup.murdermysteryfabric.murder_mystery": "Blood Bark Manor",
 
   "subtitles.murdermysteryfabric.clue_found": "Clue Found",
   "subtitles.murdermysteryfabric.knife_stab": "Knife Stab",

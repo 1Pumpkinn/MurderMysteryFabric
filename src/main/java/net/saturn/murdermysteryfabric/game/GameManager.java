@@ -113,9 +113,10 @@ public class GameManager {
                         debug ? "!" : "! Find and eliminate the murderer.",
                         Formatting.BLUE, Formatting.AQUA).append(Text.literal(debugTag)), false);
             }
-            case INVESTIGATOR -> {
-                player.sendMessage(roleMessage("You are an ", "CLEANER", "! Collect evidence and survive.",
-                        Formatting.GREEN, Formatting.DARK_GREEN), false);
+            case CLEANER -> {
+                player.sendMessage(roleMessage("You are a ", "CLEANER",
+                        debug ? "!" : "! You were hired to clean the Manor. Stay alive.",
+                        Formatting.GREEN, Formatting.DARK_GREEN).append(Text.literal(debugTag)), false);
             }
             default -> {}
         }
@@ -158,8 +159,7 @@ public class GameManager {
         GameRole killedRole = getRole(killed.getUuid());
 
         if (killedRole == GameRole.MURDERER) {
-            endGame(server, "The Murderer was eliminated! Investigators and Detective win!");
-            return;
+            endGame(server, "The Murderer was eliminated! Cleaners and Detective win!");            return;
         }
 
         // Check the roles map directly rather than iterating getPlayerList(),
@@ -168,7 +168,7 @@ public class GameManager {
                 .filter(p -> !p.getUuid().equals(killed.getUuid()))
                 .filter(p -> {
                     GameRole role = getRole(p);
-                    return role == GameRole.DETECTIVE || role == GameRole.INVESTIGATOR;
+                    return role == GameRole.DETECTIVE || role == GameRole.CLEANER;
                 })
                 .count();
 

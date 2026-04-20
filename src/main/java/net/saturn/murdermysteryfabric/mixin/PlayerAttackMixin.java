@@ -34,22 +34,20 @@ public class PlayerAttackMixin {
         }
 
         switch (attackerRole) {
-            case INVESTIGATOR -> {
-                attacker.sendMessage(Text.literal("Investigators cannot attack!").formatted(Formatting.RED), true);
+            case CLEANER -> {
+                attacker.sendMessage(Text.literal("Cleaners cannot attack!").formatted(Formatting.RED), true);
                 ci.cancel();
             }
             case MURDERER -> {
                 // Allowed — knife's postHit handles kill logic
             }
             case DETECTIVE -> {
-                if (targetRole == GameRole.INVESTIGATOR) {
+                if (targetRole == GameRole.CLEANER) {
                     penaliseDetective(attacker, targetPlayer);
                     ci.cancel();
                 }
-                // Attacking MURDERER is the correct play — allow it
             }
             default -> {
-                // NONE role during a game shouldn't be able to attack
                 ci.cancel();
             }
         }
