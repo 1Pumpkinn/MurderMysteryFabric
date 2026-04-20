@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column_horizontal",
-  "textures": {
-    "end": "murdermysteryfabric:block/stripped_redwood_log_top",
-    "side": "murdermysteryfabric:block/stripped_redwood_log"
-  }
-}
