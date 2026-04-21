@@ -7,6 +7,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.world.rule.GameRules;
 import net.saturn.murdermysteryfabric.item.ModItems;
 import net.minecraft.text.MutableText;
 
@@ -75,9 +76,16 @@ public class GameManager {
             tickListenerRegistered = true;
         }
 
+        // Lock to midnight and freeze the day/night cycle (1.21.11 API)
+        server.getWorlds().forEach(world -> {
+            world.setTimeOfDay(18000L);
+            world.getGameRules().setValue(GameRules.ADVANCE_TIME, false, server);
+        });
+
         String suffix = debugMode ? " §e[DEBUG MODE]" : "";
         server.getPlayerManager().broadcast(
-                Text.literal("=== Murder Mystery has started!" + suffix + " ===").formatted(Formatting.GOLD, Formatting.BOLD), false);
+                Text.literal("=== Murder Mystery has started!" + suffix + " ===")
+                        .formatted(Formatting.GOLD, Formatting.BOLD), false);
 
         return true;
     }
@@ -122,7 +130,8 @@ public class GameManager {
         }
     }
 
-    private static MutableText roleMessage(String prefix, String role, String suffix, Formatting prefixColor, Formatting roleColor) {
+    private static MutableText roleMessage(String prefix, String role, String suffix,
+                                           Formatting prefixColor, Formatting roleColor) {
         return Text.literal(prefix).formatted(prefixColor)
                 .append(Text.literal(role).formatted(roleColor, Formatting.BOLD))
                 .append(Text.literal(suffix).formatted(prefixColor));
@@ -137,11 +146,17 @@ public class GameManager {
             gameTimer = null;
         }
 
+        // Restore daylight cycle (1.21.11 API)
+        server.getWorlds().forEach(world -> {
+            world.getGameRules().setValue(GameRules.ADVANCE_TIME, true, server);
+        });
+
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
             try {
                 player.changeGameMode(net.minecraft.world.GameMode.SURVIVAL);
             } catch (Exception e) {
-                System.err.println("[MurderMystery] Failed to restore game mode for " + player.getName().getString() + ": " + e.getMessage());
+                System.err.println("[MurderMystery] Failed to restore game mode for "
+                        + player.getName().getString() + ": " + e.getMessage());
             }
             if (playerRoles.containsKey(player.getUuid())) {
                 player.getInventory().clear();
@@ -150,7 +165,8 @@ public class GameManager {
 
         playerRoles.clear();
         server.getPlayerManager().broadcast(
-                Text.literal("=== Murder Mystery ended! " + reason + " ===").formatted(Formatting.GOLD, Formatting.BOLD), false);
+                Text.literal("=== Murder Mystery ended! " + reason + " ===")
+                        .formatted(Formatting.GOLD, Formatting.BOLD), false);
     }
 
     public void onPlayerDeath(ServerPlayerEntity killed, MinecraftServer server) {
@@ -159,11 +175,10 @@ public class GameManager {
         GameRole killedRole = getRole(killed.getUuid());
 
         if (killedRole == GameRole.MURDERER) {
-            endGame(server, "The Murderer was eliminated! Cleaners and Detective win!");            return;
+            endGame(server, "The Murderer was eliminated! Cleaners and Detective win!");
+            return;
         }
 
-        // Check the roles map directly rather than iterating getPlayerList(),
-        // which may still include the just-killed player as a spectator.
         long aliveNonMurderers = server.getPlayerManager().getPlayerList().stream()
                 .filter(p -> !p.getUuid().equals(killed.getUuid()))
                 .filter(p -> {

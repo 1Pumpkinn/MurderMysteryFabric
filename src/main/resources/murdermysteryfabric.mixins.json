@@ -14,11 +14,9 @@
     "HideNametagMixin",
     "client.CameraAccessor",
     "client.BreathingCameraMixin",
-    "client.DarkVisionMixin",
-    "client.FogDistanceMixin",
-    "client.SkyColorMixin"
+    "client.CustomLightmapMixin"
+
   ],
-  "injectors": { "defaultRequire": 1 },
-  "overwrites": {
-    "requireAnnotations": true }
+  "injectors": {"defaultRequire": 1 },
+  "overwrites": {"requireAnnotations": true }
 }
