@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.client.data.*;
 import net.saturn.murdermysteryfabric.block.ModBlocks;
+import net.saturn.murdermysteryfabric.fluid.ModFluids;
 import net.saturn.murdermysteryfabric.item.ModItems;
 
 public class ModModelProvider extends FabricModelProvider {
@@ -29,6 +30,9 @@ public class ModModelProvider extends FabricModelProvider {
     public void generateItemModels(ItemModelGenerator generator) {
         generator.register(ModItems.EVIDENCE_FILE, Models.GENERATED);
         generator.register(ModItems.KNIFE, Models.HANDHELD);
+
+        generator.register(ModFluids.BLOOD_WATER_BUCKET, Models.GENERATED);
+
 
 
         }

@@ -4,6 +4,7 @@ import net.saturn.murdermysteryfabric.block.ModBlocks;
 import net.saturn.murdermysteryfabric.command.ModCommands;
 import net.saturn.murdermysteryfabric.entity.ModEntities;
 import net.saturn.murdermysteryfabric.event.ModEvents;
+import net.saturn.murdermysteryfabric.fluid.ModFluids;
 import net.saturn.murdermysteryfabric.item.ModItemGroups;
 import net.saturn.murdermysteryfabric.item.ModItems;
 import net.saturn.murdermysteryfabric.sound.ModSounds;
@@ -23,6 +24,7 @@ public class Murdermysteryfabric implements ModInitializer {
         ModItems.registerModItems();
         ModBlocks.registerModBlocks();
         ModItemGroups.registerModItemGroups();
+        ModFluids.registerFluids();
         ModSounds.registerModSounds();
         ModCommands.registerModCommands();
         ModEvents.registerModEvents();

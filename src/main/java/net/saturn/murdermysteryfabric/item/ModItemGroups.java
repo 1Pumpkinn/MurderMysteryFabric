@@ -9,6 +9,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.saturn.murdermysteryfabric.Murdermysteryfabric;
 import net.saturn.murdermysteryfabric.block.ModBlocks;
+import net.saturn.murdermysteryfabric.fluid.ModFluids;
 
 public class ModItemGroups {
 
@@ -24,6 +25,8 @@ public class ModItemGroups {
                         entries.add(ModItems.GUN);
                         entries.add(ModItems.EVIDENCE_FILE);
                         entries.add(ModItems.TOMAHAWK);
+
+                        entries.add(ModFluids.BLOOD_WATER_BUCKET);
 
 
 
