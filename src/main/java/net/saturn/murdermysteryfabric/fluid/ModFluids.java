@@ -35,7 +35,7 @@ public class ModFluids {
             new FluidBlock(
                     STILL_BLOOD_WATER,
                     AbstractBlock.Settings.copy(Blocks.WATER)
-                            .registryKey(blockKey("blood_water_block")) // 🔥 REQUIRED
+                            .registryKey(blockKey("blood_water_block"))
                             .replaceable()
                             .liquid()
             )
@@ -47,27 +47,22 @@ public class ModFluids {
             new BucketItem(
                     STILL_BLOOD_WATER,
                     new Item.Settings()
-                            .registryKey(itemKey("blood_water_bucket")) // ✅ correct
+                            .registryKey(itemKey("blood_water_bucket"))
                             .recipeRemainder(Items.BUCKET)
                             .maxCount(1)
             )
     );
 
     private static RegistryKey<Block> blockKey(String name) {
-        return RegistryKey.of(
-                RegistryKeys.BLOCK,
-                Identifier.of(Murdermysteryfabric.MODID, name)
-        );
+        return RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(Murdermysteryfabric.MODID, name));
     }
 
     private static RegistryKey<Item> itemKey(String name) {
-        return RegistryKey.of(
-                RegistryKeys.ITEM,
-                Identifier.of(Murdermysteryfabric.MODID, name)
-        );
+        return RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Murdermysteryfabric.MODID, name));
     }
 
     public static void registerFluids() {
         Murdermysteryfabric.LOGGER.info("Registering Fluids for " + Murdermysteryfabric.MODID);
+        BloodWaterFluid.registerCauldronBehavior();
     }
 }
