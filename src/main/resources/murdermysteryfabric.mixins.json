@@ -15,12 +15,10 @@
     "client.CameraAccessor",
     "client.BreathingCameraMixin",
     "client.DarkVisionMixin",
-    "client.FogDistanceMixin"
+    "client.FogDistanceMixin",
+    "client.SkyColorMixin"
   ],
-  "injectors": {
-    "defaultRequire": 1
-  },
+  "injectors": { "defaultRequire": 1 },
   "overwrites": {
-    "requireAnnotations": true
-  }
+    "requireAnnotations": true }
 }
